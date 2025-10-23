@@ -26,3 +26,586 @@
 [2025-10-23 19:09:22] Heartbeat: running, score=10, money=5, affinity=2, stage=1
 [2025-10-23 19:09:22] Game loop exiting. Cleaning up...
 [2025-10-23 19:09:22] Pygame quit done. Exiting process.
+[2025-10-23 23:46:31] Program start: initializing display window...
+[2025-10-23 23:46:32] Display window created successfully.
+[2025-10-23 23:46:32] __main__ entry reached. Starting Game()...
+[2025-10-23 23:46:32] Asset not found: food.png
+[2025-10-23 23:46:32] Asset not found: toy.png
+[2025-10-23 23:46:32] Asset not found: obstacle.png
+[2025-10-23 23:46:32] Game instance created. Running game loop...
+[2025-10-23 23:46:32] Game loop entering...
+[2025-10-23 23:46:34] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:46:35] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:46:36] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:46:37] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=1
+[2025-10-23 23:46:38] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=2
+[2025-10-23 23:46:39] Heartbeat: running, score=2, affinity=4, stage=1, wrong_streak=0
+[2025-10-23 23:46:40] Heartbeat: running, score=2, affinity=4, stage=1, wrong_streak=2
+[2025-10-23 23:46:41] Heartbeat: running, score=2, affinity=4, stage=1, wrong_streak=3
+[2025-10-23 23:46:42] Heartbeat: running, score=3, affinity=6, stage=1, wrong_streak=0
+[2025-10-23 23:46:43] Heartbeat: running, score=4, affinity=8, stage=1, wrong_streak=0
+[2025-10-23 23:46:44] Heartbeat: running, score=8, affinity=16, stage=1, wrong_streak=0
+[2025-10-23 23:46:45] Heartbeat: running, score=11, affinity=22, stage=1, wrong_streak=0
+[2025-10-23 23:46:46] Heartbeat: running, score=13, affinity=26, stage=1, wrong_streak=1
+[2025-10-23 23:46:47] Heartbeat: running, score=13, affinity=26, stage=1, wrong_streak=3
+[2025-10-23 23:46:48] Heartbeat: running, score=13, affinity=26, stage=1, wrong_streak=3
+[2025-10-23 23:46:49] Heartbeat: running, score=13, affinity=26, stage=1, wrong_streak=3
+[2025-10-23 23:46:50] Heartbeat: running, score=13, affinity=26, stage=1, wrong_streak=3
+[2025-10-23 23:46:51] Heartbeat: running, score=14, affinity=26, stage=1, wrong_streak=0
+[2025-10-23 23:46:52] Heartbeat: running, score=15, affinity=28, stage=1, wrong_streak=0
+[2025-10-23 23:46:53] Heartbeat: running, score=15, affinity=28, stage=1, wrong_streak=0
+[2025-10-23 23:46:54] Heartbeat: running, score=16, affinity=30, stage=2, wrong_streak=1
+[2025-10-23 23:46:55] Heartbeat: running, score=16, affinity=30, stage=2, wrong_streak=2
+[2025-10-23 23:46:56] Heartbeat: running, score=16, affinity=30, stage=2, wrong_streak=2
+[2025-10-23 23:46:57] Heartbeat: running, score=16, affinity=30, stage=2, wrong_streak=2
+[2025-10-23 23:46:58] Heartbeat: running, score=16, affinity=30, stage=2, wrong_streak=2
+[2025-10-23 23:46:59] Heartbeat: running, score=18, affinity=34, stage=2, wrong_streak=1
+[2025-10-23 23:47:00] Heartbeat: running, score=20, affinity=38, stage=2, wrong_streak=3
+[2025-10-23 23:47:01] Heartbeat: running, score=20, affinity=36, stage=2, wrong_streak=4
+[2025-10-23 23:47:02] Heartbeat: running, score=20, affinity=36, stage=2, wrong_streak=4
+[2025-10-23 23:47:03] Heartbeat: running, score=20, affinity=36, stage=2, wrong_streak=4
+[2025-10-23 23:47:04] Heartbeat: running, score=20, affinity=36, stage=2, wrong_streak=4
+[2025-10-23 23:47:05] Heartbeat: running, score=22, affinity=40, stage=2, wrong_streak=2
+[2025-10-23 23:47:06] Heartbeat: running, score=22, affinity=40, stage=2, wrong_streak=2
+[2025-10-23 23:47:07] Heartbeat: running, score=22, affinity=40, stage=2, wrong_streak=2
+[2025-10-23 23:47:08] Heartbeat: running, score=22, affinity=40, stage=2, wrong_streak=2
+[2025-10-23 23:47:09] Heartbeat: running, score=22, affinity=40, stage=2, wrong_streak=2
+[2025-10-23 23:47:10] Heartbeat: running, score=24, affinity=44, stage=2, wrong_streak=0
+[2025-10-23 23:47:11] Heartbeat: running, score=24, affinity=44, stage=2, wrong_streak=0
+[2025-10-23 23:47:12] Heartbeat: running, score=24, affinity=44, stage=2, wrong_streak=0
+[2025-10-23 23:47:13] Heartbeat: running, score=27, affinity=50, stage=2, wrong_streak=0
+[2025-10-23 23:47:14] Heartbeat: running, score=31, affinity=58, stage=2, wrong_streak=0
+[2025-10-23 23:47:15] Heartbeat: running, score=32, affinity=60, stage=3, wrong_streak=0
+[2025-10-23 23:47:16] Heartbeat: running, score=32, affinity=60, stage=3, wrong_streak=0
+[2025-10-23 23:47:17] Heartbeat: running, score=32, affinity=60, stage=3, wrong_streak=0
+[2025-10-23 23:47:18] Heartbeat: running, score=32, affinity=60, stage=3, wrong_streak=0
+[2025-10-23 23:47:19] Heartbeat: running, score=32, affinity=60, stage=3, wrong_streak=0
+[2025-10-23 23:47:20] Heartbeat: running, score=32, affinity=60, stage=3, wrong_streak=0
+[2025-10-23 23:47:21] Heartbeat: running, score=32, affinity=60, stage=3, wrong_streak=0
+[2025-10-23 23:47:22] Heartbeat: running, score=32, affinity=60, stage=3, wrong_streak=0
+[2025-10-23 23:47:23] Heartbeat: running, score=32, affinity=60, stage=3, wrong_streak=0
+[2025-10-23 23:47:24] Heartbeat: running, score=32, affinity=60, stage=3, wrong_streak=0
+[2025-10-23 23:47:25] Heartbeat: running, score=32, affinity=60, stage=3, wrong_streak=0
+[2025-10-23 23:47:26] Heartbeat: running, score=32, affinity=60, stage=3, wrong_streak=0
+[2025-10-23 23:47:27] Heartbeat: running, score=32, affinity=60, stage=3, wrong_streak=0
+[2025-10-23 23:47:28] Heartbeat: running, score=32, affinity=60, stage=3, wrong_streak=0
+[2025-10-23 23:47:34] Game loop exiting. Cleaning up...
+[2025-10-23 23:47:34] Pygame quit done. Exiting process.
+[2025-10-23 23:50:10] Program start: initializing display window...
+[2025-10-23 23:50:10] Display window created successfully.
+[2025-10-23 23:50:10] __main__ entry reached. Starting Game()...
+[2025-10-23 23:50:10] Asset not found: cat_stage1_1.png
+[2025-10-23 23:50:10] Asset not found: cat_stage1_2.png
+[2025-10-23 23:50:10] Asset not found: cat_stage2_1.png
+[2025-10-23 23:50:10] Asset not found: cat_stage2_2.png
+[2025-10-23 23:50:10] Asset not found: cat_stage3_1.png
+[2025-10-23 23:50:10] Asset not found: cat_stage3_2.png
+[2025-10-23 23:50:11] Asset not found: food.png
+[2025-10-23 23:50:11] Asset not found: toy.png
+[2025-10-23 23:50:11] Asset not found: obstacle.png
+[2025-10-23 23:50:11] Game instance created. Running game loop...
+[2025-10-23 23:50:11] Game loop entering...
+[2025-10-23 23:50:13] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:50:14] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:50:15] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:50:16] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:50:17] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:50:18] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:50:19] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:50:20] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:50:21] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=1
+[2025-10-23 23:50:22] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=1
+[2025-10-23 23:50:23] Heartbeat: running, score=2, affinity=4, stage=1, wrong_streak=1
+[2025-10-23 23:50:24] Heartbeat: running, score=3, affinity=2, stage=1, wrong_streak=5
+[2025-10-23 23:50:25] Heartbeat: running, score=3, affinity=0, stage=1, wrong_streak=8
+[2025-10-23 23:50:26] Heartbeat: running, score=3, affinity=0, stage=1, wrong_streak=10
+[2025-10-23 23:50:27] Heartbeat: running, score=3, affinity=0, stage=1, wrong_streak=10
+[2025-10-23 23:50:28] Heartbeat: running, score=5, affinity=4, stage=1, wrong_streak=0
+[2025-10-23 23:50:29] Heartbeat: running, score=5, affinity=4, stage=1, wrong_streak=2
+[2025-10-23 23:50:30] Heartbeat: running, score=5, affinity=0, stage=1, wrong_streak=6
+[2025-10-23 23:50:31] Heartbeat: running, score=5, affinity=0, stage=1, wrong_streak=6
+[2025-10-23 23:50:32] Heartbeat: running, score=5, affinity=0, stage=1, wrong_streak=7
+[2025-10-23 23:50:33] Heartbeat: running, score=5, affinity=0, stage=1, wrong_streak=7
+[2025-10-23 23:50:34] Heartbeat: running, score=5, affinity=0, stage=1, wrong_streak=7
+[2025-10-23 23:50:35] Heartbeat: running, score=5, affinity=0, stage=1, wrong_streak=7
+[2025-10-23 23:50:36] Heartbeat: running, score=5, affinity=0, stage=1, wrong_streak=7
+[2025-10-23 23:50:37] Heartbeat: running, score=6, affinity=2, stage=1, wrong_streak=0
+[2025-10-23 23:50:38] Heartbeat: running, score=6, affinity=2, stage=1, wrong_streak=0
+[2025-10-23 23:50:39] Heartbeat: running, score=6, affinity=2, stage=1, wrong_streak=0
+[2025-10-23 23:50:40] Heartbeat: running, score=11, affinity=12, stage=1, wrong_streak=0
+[2025-10-23 23:50:41] Heartbeat: running, score=11, affinity=12, stage=1, wrong_streak=2
+[2025-10-23 23:50:42] Heartbeat: running, score=11, affinity=12, stage=1, wrong_streak=2
+[2025-10-23 23:50:43] Heartbeat: running, score=11, affinity=12, stage=1, wrong_streak=2
+[2025-10-23 23:50:44] Heartbeat: running, score=11, affinity=12, stage=1, wrong_streak=2
+[2025-10-23 23:50:45] Heartbeat: running, score=11, affinity=12, stage=1, wrong_streak=2
+[2025-10-23 23:50:46] Heartbeat: running, score=11, affinity=12, stage=1, wrong_streak=2
+[2025-10-23 23:50:47] Heartbeat: running, score=11, affinity=12, stage=1, wrong_streak=2
+[2025-10-23 23:50:48] Heartbeat: running, score=11, affinity=12, stage=1, wrong_streak=2
+[2025-10-23 23:50:49] Heartbeat: running, score=11, affinity=12, stage=1, wrong_streak=2
+[2025-10-23 23:50:50] Heartbeat: running, score=11, affinity=12, stage=1, wrong_streak=2
+[2025-10-23 23:50:51] Heartbeat: running, score=11, affinity=12, stage=1, wrong_streak=2
+[2025-10-23 23:51:13] Game loop exiting. Cleaning up...
+[2025-10-23 23:51:13] Pygame quit done. Exiting process.
+[2025-10-23 23:58:24] Program start: initializing display window...
+[2025-10-23 23:58:24] Display window created successfully.
+[2025-10-23 23:58:24] __main__ entry reached. Starting Game()...
+[2025-10-23 23:58:24] Asset not found: cat_stage1_1.png
+[2025-10-23 23:58:24] Asset not found: cat_stage1_2.png
+[2025-10-23 23:58:24] Asset not found: cat_stage2_1.png
+[2025-10-23 23:58:24] Asset not found: cat_stage2_2.png
+[2025-10-23 23:58:24] Asset not found: cat_stage3_1.png
+[2025-10-23 23:58:24] Asset not found: cat_stage3_2.png
+[2025-10-23 23:58:24] Asset not found: food.png
+[2025-10-23 23:58:24] Asset not found: toy.png
+[2025-10-23 23:58:24] Asset not found: obstacle.png
+[2025-10-23 23:58:24] Game instance created. Running game loop...
+[2025-10-23 23:58:24] Game loop entering...
+[2025-10-23 23:58:26] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:27] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:28] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:29] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:30] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:31] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:32] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:33] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:34] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:35] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:36] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:37] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:38] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:39] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:40] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:41] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:42] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:43] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:44] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:45] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:46] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:47] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:48] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:49] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:50] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:51] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:52] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:53] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:54] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:58:55] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-23 23:59:05] Game loop exiting. Cleaning up...
+[2025-10-23 23:59:06] Pygame quit done. Exiting process.
+[2025-10-24 00:01:30] Program start: initializing display window...
+[2025-10-24 00:01:30] Display window created successfully.
+[2025-10-24 00:01:30] __main__ entry reached. Starting Game()...
+[2025-10-24 00:01:30] Asset not found: cat_stage1_1.png
+[2025-10-24 00:01:30] Asset not found: cat_stage1_2.png
+[2025-10-24 00:01:30] Asset not found: cat_stage2_1.png
+[2025-10-24 00:01:30] Asset not found: cat_stage2_2.png
+[2025-10-24 00:01:30] Asset not found: cat_stage3_1.png
+[2025-10-24 00:01:30] Asset not found: cat_stage3_2.png
+[2025-10-24 00:01:30] Asset not found: food.png
+[2025-10-24 00:01:30] Asset not found: toy.png
+[2025-10-24 00:01:30] Asset not found: obstacle.png
+[2025-10-24 00:01:30] Game instance created. Running game loop...
+[2025-10-24 00:01:30] Game loop entering...
+[2025-10-24 00:01:32] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:01:33] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:01:34] Heartbeat: running, score=1, affinity=2, stage=1, wrong_streak=0
+[2025-10-24 00:01:35] Heartbeat: running, score=2, affinity=4, stage=1, wrong_streak=0
+[2025-10-24 00:01:36] Heartbeat: running, score=3, affinity=6, stage=1, wrong_streak=1
+[2025-10-24 00:01:37] Heartbeat: running, score=3, affinity=6, stage=1, wrong_streak=1
+[2025-10-24 00:01:38] Heartbeat: running, score=4, affinity=8, stage=1, wrong_streak=0
+[2025-10-24 00:01:39] Heartbeat: running, score=5, affinity=10, stage=1, wrong_streak=0
+[2025-10-24 00:01:40] Heartbeat: running, score=5, affinity=10, stage=1, wrong_streak=1
+[2025-10-24 00:01:41] Heartbeat: running, score=5, affinity=10, stage=1, wrong_streak=1
+[2025-10-24 00:01:42] Heartbeat: running, score=5, affinity=10, stage=1, wrong_streak=1
+[2025-10-24 00:01:43] Heartbeat: running, score=5, affinity=10, stage=1, wrong_streak=2
+[2025-10-24 00:01:44] Heartbeat: running, score=9, affinity=18, stage=1, wrong_streak=0
+[2025-10-24 00:01:45] Heartbeat: running, score=10, affinity=20, stage=1, wrong_streak=2
+[2025-10-24 00:01:46] Heartbeat: running, score=11, affinity=22, stage=1, wrong_streak=3
+[2025-10-24 00:01:47] Heartbeat: running, score=11, affinity=22, stage=1, wrong_streak=3
+[2025-10-24 00:01:48] Heartbeat: running, score=11, affinity=22, stage=1, wrong_streak=3
+[2025-10-24 00:01:49] Heartbeat: running, score=11, affinity=20, stage=1, wrong_streak=4
+[2025-10-24 00:01:50] Heartbeat: running, score=12, affinity=20, stage=1, wrong_streak=2
+[2025-10-24 00:01:51] Heartbeat: running, score=12, affinity=20, stage=1, wrong_streak=2
+[2025-10-24 00:01:52] Heartbeat: running, score=12, affinity=20, stage=1, wrong_streak=2
+[2025-10-24 00:01:53] Heartbeat: running, score=13, affinity=20, stage=1, wrong_streak=1
+[2025-10-24 00:01:54] Heartbeat: running, score=15, affinity=24, stage=1, wrong_streak=1
+[2025-10-24 00:01:55] Heartbeat: running, score=15, affinity=24, stage=1, wrong_streak=1
+[2025-10-24 00:01:56] Heartbeat: running, score=15, affinity=24, stage=1, wrong_streak=1
+[2025-10-24 00:01:57] Heartbeat: running, score=15, affinity=24, stage=1, wrong_streak=1
+[2025-10-24 00:01:58] Heartbeat: running, score=16, affinity=26, stage=1, wrong_streak=1
+[2025-10-24 00:01:59] Heartbeat: running, score=18, affinity=30, stage=2, wrong_streak=1
+[2025-10-24 00:02:00] Heartbeat: running, score=18, affinity=30, stage=2, wrong_streak=1
+[2025-10-24 00:02:01] Heartbeat: running, score=18, affinity=30, stage=2, wrong_streak=1
+[2025-10-24 00:02:02] Heartbeat: running, score=18, affinity=30, stage=2, wrong_streak=1
+[2025-10-24 00:02:03] Heartbeat: running, score=18, affinity=30, stage=2, wrong_streak=1
+[2025-10-24 00:02:04] Heartbeat: running, score=18, affinity=30, stage=2, wrong_streak=1
+[2025-10-24 00:02:05] Heartbeat: running, score=18, affinity=30, stage=2, wrong_streak=1
+[2025-10-24 00:02:07] Game loop exiting. Cleaning up...
+[2025-10-24 00:02:08] Pygame quit done. Exiting process.
+[2025-10-24 00:07:36] Program start: initializing display window...
+[2025-10-24 00:07:36] Display window created successfully.
+[2025-10-24 00:07:36] __main__ entry reached. Starting Game()...
+[2025-10-24 00:07:36] Asset not found: cat_stage1_1.png
+[2025-10-24 00:07:36] Asset not found: cat_stage1_2.png
+[2025-10-24 00:07:36] Asset not found: cat_stage2_1.png
+[2025-10-24 00:07:36] Asset not found: cat_stage2_2.png
+[2025-10-24 00:07:36] Asset not found: cat_stage3_1.png
+[2025-10-24 00:07:36] Asset not found: cat_stage3_2.png
+[2025-10-24 00:07:36] Asset not found: food.png
+[2025-10-24 00:07:36] Asset not found: toy.png
+[2025-10-24 00:07:36] Asset not found: obstacle.png
+[2025-10-24 00:07:36] Game instance created. Running game loop...
+[2025-10-24 00:07:36] Game loop entering...
+[2025-10-24 00:07:39] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:07:39] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:07:40] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:07:41] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:07:42] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:07:43] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:07:44] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:07:45] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:07:46] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:07:47] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:07:48] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:07:49] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:07:50] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:07:51] Heartbeat: running, score=2, affinity=4, stage=1, wrong_streak=2
+[2025-10-24 00:07:52] Heartbeat: running, score=2, affinity=4, stage=1, wrong_streak=3
+[2025-10-24 00:07:53] Heartbeat: running, score=2, affinity=4, stage=1, wrong_streak=3
+[2025-10-24 00:07:54] Heartbeat: running, score=2, affinity=0, stage=1, wrong_streak=5
+[2025-10-24 00:07:55] Heartbeat: running, score=2, affinity=0, stage=1, wrong_streak=8
+[2025-10-24 00:07:56] Heartbeat: running, score=2, affinity=0, stage=1, wrong_streak=8
+[2025-10-24 00:07:57] Heartbeat: running, score=2, affinity=0, stage=1, wrong_streak=8
+[2025-10-24 00:07:58] Heartbeat: running, score=3, affinity=2, stage=1, wrong_streak=0
+[2025-10-24 00:07:59] Heartbeat: running, score=6, affinity=8, stage=1, wrong_streak=0
+[2025-10-24 00:08:00] Heartbeat: running, score=7, affinity=10, stage=1, wrong_streak=2
+[2025-10-24 00:08:01] Heartbeat: running, score=7, affinity=10, stage=1, wrong_streak=2
+[2025-10-24 00:08:02] Heartbeat: running, score=9, affinity=14, stage=1, wrong_streak=0
+[2025-10-24 00:08:03] Heartbeat: running, score=11, affinity=16, stage=1, wrong_streak=4
+[2025-10-24 00:08:04] Heartbeat: running, score=12, affinity=18, stage=1, wrong_streak=2
+[2025-10-24 00:08:05] Heartbeat: running, score=14, affinity=22, stage=1, wrong_streak=0
+[2025-10-24 00:08:06] Heartbeat: running, score=14, affinity=22, stage=1, wrong_streak=0
+[2025-10-24 00:08:07] Heartbeat: running, score=14, affinity=22, stage=1, wrong_streak=0
+[2025-10-24 00:08:08] Heartbeat: running, score=15, affinity=24, stage=1, wrong_streak=1
+[2025-10-24 00:08:09] Heartbeat: running, score=15, affinity=24, stage=1, wrong_streak=1
+[2025-10-24 00:08:10] Heartbeat: running, score=15, affinity=24, stage=1, wrong_streak=1
+[2025-10-24 00:08:11] Heartbeat: running, score=15, affinity=24, stage=1, wrong_streak=1
+[2025-10-24 00:08:12] Heartbeat: running, score=15, affinity=24, stage=1, wrong_streak=1
+[2025-10-24 00:08:13] Heartbeat: running, score=15, affinity=24, stage=1, wrong_streak=1
+[2025-10-24 00:08:14] Heartbeat: running, score=15, affinity=24, stage=1, wrong_streak=1
+[2025-10-24 00:08:15] Heartbeat: running, score=15, affinity=24, stage=1, wrong_streak=1
+[2025-10-24 00:08:16] Heartbeat: running, score=15, affinity=24, stage=1, wrong_streak=1
+[2025-10-24 00:08:17] Heartbeat: running, score=16, affinity=26, stage=1, wrong_streak=1
+[2025-10-24 00:08:18] Heartbeat: running, score=19, affinity=32, stage=2, wrong_streak=0
+[2025-10-24 00:08:19] Heartbeat: running, score=19, affinity=32, stage=2, wrong_streak=0
+[2025-10-24 00:08:20] Heartbeat: running, score=19, affinity=32, stage=2, wrong_streak=0
+[2025-10-24 00:08:21] Heartbeat: running, score=19, affinity=32, stage=2, wrong_streak=0
+[2025-10-24 00:08:22] Heartbeat: running, score=22, affinity=38, stage=2, wrong_streak=1
+[2025-10-24 00:08:23] Heartbeat: running, score=24, affinity=42, stage=2, wrong_streak=0
+[2025-10-24 00:08:24] Heartbeat: running, score=25, affinity=44, stage=2, wrong_streak=0
+[2025-10-24 00:08:25] Heartbeat: running, score=25, affinity=44, stage=2, wrong_streak=0
+[2025-10-24 00:08:26] Heartbeat: running, score=27, affinity=48, stage=2, wrong_streak=2
+[2025-10-24 00:08:27] Heartbeat: running, score=30, affinity=54, stage=2, wrong_streak=1
+[2025-10-24 00:08:28] Heartbeat: running, score=33, affinity=60, stage=3, wrong_streak=1
+[2025-10-24 00:08:29] Heartbeat: running, score=33, affinity=60, stage=3, wrong_streak=1
+[2025-10-24 00:08:30] Heartbeat: running, score=33, affinity=60, stage=3, wrong_streak=1
+[2025-10-24 00:08:31] Heartbeat: running, score=33, affinity=60, stage=3, wrong_streak=1
+[2025-10-24 00:08:32] Heartbeat: running, score=33, affinity=60, stage=3, wrong_streak=1
+[2025-10-24 00:08:33] Heartbeat: running, score=36, affinity=66, stage=3, wrong_streak=0
+[2025-10-24 00:08:34] Heartbeat: running, score=36, affinity=66, stage=3, wrong_streak=0
+[2025-10-24 00:08:35] Heartbeat: running, score=36, affinity=66, stage=3, wrong_streak=0
+[2025-10-24 00:08:36] Heartbeat: running, score=36, affinity=66, stage=3, wrong_streak=0
+[2025-10-24 00:08:37] Heartbeat: running, score=36, affinity=66, stage=3, wrong_streak=0
+[2025-10-24 00:08:43] Game loop exiting. Cleaning up...
+[2025-10-24 00:08:43] Pygame quit done. Exiting process.
+[2025-10-24 00:11:26] Program start: initializing display window...
+[2025-10-24 00:11:26] Display window created successfully.
+[2025-10-24 00:11:26] __main__ entry reached. Starting Game()...
+[2025-10-24 00:11:26] Asset not found: cat_stage1_1.png
+[2025-10-24 00:11:26] Asset not found: cat_stage1_2.png
+[2025-10-24 00:11:26] Asset not found: cat_stage2_1.png
+[2025-10-24 00:11:26] Asset not found: cat_stage2_2.png
+[2025-10-24 00:11:26] Asset not found: cat_stage3_1.png
+[2025-10-24 00:11:26] Asset not found: cat_stage3_2.png
+[2025-10-24 00:11:26] Asset not found: food.png
+[2025-10-24 00:11:26] Asset not found: toy.png
+[2025-10-24 00:11:26] Asset not found: obstacle.png
+[2025-10-24 00:11:26] Game instance created. Running game loop...
+[2025-10-24 00:11:26] Game loop entering...
+[2025-10-24 00:11:28] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:11:29] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:11:30] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:11:31] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:11:32] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:11:33] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:11:34] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:11:35] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:11:36] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:11:37] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:11:38] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:11:39] Game loop exiting. Cleaning up...
+[2025-10-24 00:11:39] Pygame quit done. Exiting process.
+[2025-10-24 00:14:08] Program start: initializing display window...
+[2025-10-24 00:14:09] Display window created successfully.
+[2025-10-24 00:14:09] __main__ entry reached. Starting Game()...
+[2025-10-24 00:14:09] Asset not found: cat_stage1_1.png
+[2025-10-24 00:14:09] Asset not found: cat_stage1_2.png
+[2025-10-24 00:14:09] Asset not found: cat_stage2_1.png
+[2025-10-24 00:14:09] Asset not found: cat_stage2_2.png
+[2025-10-24 00:14:09] Asset not found: cat_stage3_1.png
+[2025-10-24 00:14:09] Asset not found: cat_stage3_2.png
+[2025-10-24 00:14:09] Asset not found: food.png
+[2025-10-24 00:14:09] Asset not found: toy.png
+[2025-10-24 00:14:09] Asset not found: obstacle.png
+[2025-10-24 00:14:09] Game instance created. Running game loop...
+[2025-10-24 00:14:09] Game loop entering...
+[2025-10-24 00:14:11] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:14:12] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:14:13] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:14:14] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:14:14] Game loop exiting. Cleaning up...
+[2025-10-24 00:14:14] Pygame quit done. Exiting process.
+[2025-10-24 00:14:46] Program start: initializing display window...
+[2025-10-24 00:14:46] Display window created successfully.
+[2025-10-24 00:14:46] __main__ entry reached. Starting Game()...
+[2025-10-24 00:14:46] Asset not found: cat_stage1_1.png
+[2025-10-24 00:14:46] Asset not found: cat_stage1_2.png
+[2025-10-24 00:14:46] Asset not found: cat_stage2_1.png
+[2025-10-24 00:14:46] Asset not found: cat_stage2_2.png
+[2025-10-24 00:14:46] Asset not found: cat_stage3_1.png
+[2025-10-24 00:14:46] Asset not found: cat_stage3_2.png
+[2025-10-24 00:14:46] Asset not found: food.png
+[2025-10-24 00:14:46] Asset not found: toy.png
+[2025-10-24 00:14:46] Asset not found: obstacle.png
+[2025-10-24 00:14:46] Game instance created. Running game loop...
+[2025-10-24 00:14:46] Game loop entering...
+[2025-10-24 00:14:48] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:14:49] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:14:50] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:14:51] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:14:52] Game loop exiting. Cleaning up...
+[2025-10-24 00:14:52] Pygame quit done. Exiting process.
+[2025-10-24 00:15:32] Program start: initializing display window...
+[2025-10-24 00:15:33] Display window created successfully.
+[2025-10-24 00:15:33] __main__ entry reached. Starting Game()...
+[2025-10-24 00:15:33] Asset not found: cat_stage1_1.png
+[2025-10-24 00:15:33] Asset not found: cat_stage1_2.png
+[2025-10-24 00:15:33] Asset not found: cat_stage2_1.png
+[2025-10-24 00:15:33] Asset not found: cat_stage2_2.png
+[2025-10-24 00:15:33] Asset not found: cat_stage3_1.png
+[2025-10-24 00:15:33] Asset not found: cat_stage3_2.png
+[2025-10-24 00:15:33] Asset not found: food.png
+[2025-10-24 00:15:33] Asset not found: toy.png
+[2025-10-24 00:15:33] Asset not found: obstacle.png
+[2025-10-24 00:15:33] Game instance created. Running game loop...
+[2025-10-24 00:15:33] Game loop entering...
+[2025-10-24 00:15:35] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:15:36] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:15:37] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:15:38] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:15:39] Game loop exiting. Cleaning up...
+[2025-10-24 00:15:39] Pygame quit done. Exiting process.
+[2025-10-24 00:15:54] Program start: initializing display window...
+[2025-10-24 00:15:54] Display window created successfully.
+[2025-10-24 00:15:54] __main__ entry reached. Starting Game()...
+[2025-10-24 00:15:54] Asset not found: cat_stage1_1.png
+[2025-10-24 00:15:54] Asset not found: cat_stage1_2.png
+[2025-10-24 00:15:54] Asset not found: cat_stage2_1.png
+[2025-10-24 00:15:54] Asset not found: cat_stage2_2.png
+[2025-10-24 00:15:54] Asset not found: cat_stage3_1.png
+[2025-10-24 00:15:54] Asset not found: cat_stage3_2.png
+[2025-10-24 00:15:54] Asset not found: food.png
+[2025-10-24 00:15:54] Asset not found: toy.png
+[2025-10-24 00:15:54] Asset not found: obstacle.png
+[2025-10-24 00:15:54] Game instance created. Running game loop...
+[2025-10-24 00:15:54] Game loop entering...
+[2025-10-24 00:15:56] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:15:57] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:15:58] Game loop exiting. Cleaning up...
+[2025-10-24 00:15:58] Pygame quit done. Exiting process.
+[2025-10-24 00:16:13] Program start: initializing display window...
+[2025-10-24 00:16:14] Display window created successfully.
+[2025-10-24 00:16:14] __main__ entry reached. Starting Game()...
+[2025-10-24 00:16:14] Asset not found: cat_stage1_1.png
+[2025-10-24 00:16:14] Asset not found: cat_stage1_2.png
+[2025-10-24 00:16:14] Asset not found: cat_stage2_1.png
+[2025-10-24 00:16:14] Asset not found: cat_stage2_2.png
+[2025-10-24 00:16:14] Asset not found: cat_stage3_1.png
+[2025-10-24 00:16:14] Asset not found: cat_stage3_2.png
+[2025-10-24 00:16:14] Asset not found: food.png
+[2025-10-24 00:16:14] Asset not found: toy.png
+[2025-10-24 00:16:14] Asset not found: obstacle.png
+[2025-10-24 00:16:14] Game instance created. Running game loop...
+[2025-10-24 00:16:14] Game loop entering...
+[2025-10-24 00:16:16] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:16:17] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:16:18] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:16:19] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:16:20] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:16:21] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:16:22] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:16:23] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:16:23] Game loop exiting. Cleaning up...
+[2025-10-24 00:16:23] Pygame quit done. Exiting process.
+[2025-10-24 00:16:56] Program start: initializing display window...
+[2025-10-24 00:16:56] Display window created successfully.
+[2025-10-24 00:16:56] __main__ entry reached. Starting Game()...
+[2025-10-24 00:16:56] Asset not found: cat_stage1_1.png
+[2025-10-24 00:16:56] Asset not found: cat_stage1_2.png
+[2025-10-24 00:16:56] Asset not found: cat_stage2_1.png
+[2025-10-24 00:16:56] Asset not found: cat_stage2_2.png
+[2025-10-24 00:16:56] Asset not found: cat_stage3_1.png
+[2025-10-24 00:16:56] Asset not found: cat_stage3_2.png
+[2025-10-24 00:16:57] Asset not found: food.png
+[2025-10-24 00:16:57] Asset not found: toy.png
+[2025-10-24 00:16:57] Asset not found: obstacle.png
+[2025-10-24 00:16:57] Game instance created. Running game loop...
+[2025-10-24 00:16:57] Game loop entering...
+[2025-10-24 00:16:58] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:16:59] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:17:00] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:17:01] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:17:02] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:17:03] Game loop exiting. Cleaning up...
+[2025-10-24 00:17:03] Pygame quit done. Exiting process.
+[2025-10-24 00:17:44] Program start: initializing display window...
+[2025-10-24 00:17:44] Display window created successfully.
+[2025-10-24 00:17:44] __main__ entry reached. Starting Game()...
+[2025-10-24 00:17:44] Asset not found: cat_stage1_1.png
+[2025-10-24 00:17:44] Asset not found: cat_stage1_2.png
+[2025-10-24 00:17:44] Asset not found: cat_stage2_1.png
+[2025-10-24 00:17:44] Asset not found: cat_stage2_2.png
+[2025-10-24 00:17:44] Asset not found: cat_stage3_1.png
+[2025-10-24 00:17:44] Asset not found: cat_stage3_2.png
+[2025-10-24 00:17:44] Asset not found: food.png
+[2025-10-24 00:17:44] Asset not found: toy.png
+[2025-10-24 00:17:44] Asset not found: obstacle.png
+[2025-10-24 00:17:44] Game instance created. Running game loop...
+[2025-10-24 00:17:44] Game loop entering...
+[2025-10-24 00:17:46] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:17:47] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:17:48] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:17:49] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:17:50] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:17:51] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:17:52] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:17:53] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:17:54] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:17:55] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:17:56] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:17:57] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:17:57] Game loop exiting. Cleaning up...
+[2025-10-24 00:17:57] Pygame quit done. Exiting process.
+[2025-10-24 00:18:15] Program start: initializing display window...
+[2025-10-24 00:18:15] Display window created successfully.
+[2025-10-24 00:18:15] __main__ entry reached. Starting Game()...
+[2025-10-24 00:18:15] Asset not found: cat_stage1_1.png
+[2025-10-24 00:18:15] Asset not found: cat_stage1_2.png
+[2025-10-24 00:18:15] Asset not found: cat_stage2_1.png
+[2025-10-24 00:18:15] Asset not found: cat_stage2_2.png
+[2025-10-24 00:18:15] Asset not found: cat_stage3_1.png
+[2025-10-24 00:18:15] Asset not found: cat_stage3_2.png
+[2025-10-24 00:18:15] Asset not found: food.png
+[2025-10-24 00:18:15] Asset not found: toy.png
+[2025-10-24 00:18:15] Asset not found: obstacle.png
+[2025-10-24 00:18:15] Game instance created. Running game loop...
+[2025-10-24 00:18:15] Game loop entering...
+[2025-10-24 00:18:17] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:18] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:19] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:20] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:21] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:22] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:23] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:24] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:25] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:26] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:27] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:28] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:29] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:30] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:31] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:32] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:33] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:34] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:35] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:36] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:37] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:38] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:39] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:40] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:18:41] Game loop exiting. Cleaning up...
+[2025-10-24 00:18:41] Pygame quit done. Exiting process.
+[2025-10-24 00:19:33] Program start: initializing display window...
+[2025-10-24 00:19:34] Display window created successfully.
+[2025-10-24 00:19:34] __main__ entry reached. Starting Game()...
+[2025-10-24 00:19:34] Asset not found: cat_stage1_1.png
+[2025-10-24 00:19:34] Asset not found: cat_stage1_2.png
+[2025-10-24 00:19:34] Asset not found: cat_stage2_1.png
+[2025-10-24 00:19:34] Asset not found: cat_stage2_2.png
+[2025-10-24 00:19:34] Asset not found: cat_stage3_1.png
+[2025-10-24 00:19:34] Asset not found: cat_stage3_2.png
+[2025-10-24 00:19:34] Asset not found: food.png
+[2025-10-24 00:19:34] Asset not found: toy.png
+[2025-10-24 00:19:34] Asset not found: obstacle.png
+[2025-10-24 00:19:34] Game instance created. Running game loop...
+[2025-10-24 00:19:34] Game loop entering...
+[2025-10-24 00:19:35] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:19:36] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:19:37] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:19:38] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:19:39] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:19:40] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:19:41] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:19:42] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:19:43] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:19:44] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:19:45] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:19:46] Game loop exiting. Cleaning up...
+[2025-10-24 00:19:46] Pygame quit done. Exiting process.
+[2025-10-24 00:20:57] Program start: initializing display window...
+[2025-10-24 00:20:57] Display window created successfully.
+[2025-10-24 00:20:57] __main__ entry reached. Starting Game()...
+[2025-10-24 00:20:57] Asset not found: cat_stage1_1.png
+[2025-10-24 00:20:57] Asset not found: cat_stage1_2.png
+[2025-10-24 00:20:57] Asset not found: cat_stage2_1.png
+[2025-10-24 00:20:57] Asset not found: cat_stage2_2.png
+[2025-10-24 00:20:57] Asset not found: cat_stage3_1.png
+[2025-10-24 00:20:57] Asset not found: cat_stage3_2.png
+[2025-10-24 00:20:58] Asset not found: food.png
+[2025-10-24 00:20:58] Asset not found: toy.png
+[2025-10-24 00:20:58] Asset not found: obstacle.png
+[2025-10-24 00:20:58] Game instance created. Running game loop...
+[2025-10-24 00:20:58] Game loop entering...
+[2025-10-24 00:21:00] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:01] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:02] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:03] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:04] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:05] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:06] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:07] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:08] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:09] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:10] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:11] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:12] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:13] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:14] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:15] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:16] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:17] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:18] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:19] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:20] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:21] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:22] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:23] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:24] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:25] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:26] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:27] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:28] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:29] Heartbeat: running, score=0, affinity=0, stage=1, wrong_streak=0
+[2025-10-24 00:21:33] Game loop exiting. Cleaning up...
+[2025-10-24 00:21:33] Pygame quit done. Exiting process.

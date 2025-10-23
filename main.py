@@ -59,6 +59,30 @@ IDLE_DURATION_MAX_FRAMES = int(4 * FPS)
 # 移动速度调整
 CAT_OPEN_SPEED_FACTOR = 0.6  # 猫在无遮挡区域的移动速度比例（相对 Cat.speed）
 
+# 猫贴图缩放滤镜：像素风建议 'nearest'，写实风建议 'smooth'
+CAT_IMAGE_FILTER = 'smooth'
+
+# 猫走路动画：两帧切换的时间间隔（帧）
+CAT_WALK_ANIM_INTERVAL_FRAMES = max(1, int(0.12 * FPS))
+
+# 障碍物贴图缩放策略（避免变形）
+# scale mode: 'contain' 适配不变形（留边），'cover' 充满（可能超出矩形），'stretch' 拉伸填满（可能变形）
+OBSTACLE_IMAGE_SCALE_MODE = 'contain'
+# 缩放滤镜：像素风建议 'nearest'，写实风建议 'smooth'
+OBSTACLE_IMAGE_FILTER = 'nearest'
+# 对齐：'center' 居中，'bottom' 贴底（比如树根贴地更自然）
+OBSTACLE_IMAGE_ALIGN = 'center'
+
+# 贴图全局放大系数（不改变碰撞矩形，仅视觉变大；1.0为不变）
+OBSTACLE_IMAGE_GLOBAL_SCALE = 1.25
+# 可选：按障碍索引单独放大，形如 {1:1.0, 2:1.0, 3:1.4}
+OBSTACLE_IMAGE_PER_SCALE = {2: 0.8, 1: 1.2, 3: 0.9, 4: 1.2}
+# 可选：按文件名单独缩放（当使用 obstacle_*.png 或 obstacle.png 时匹配）
+OBSTACLE_IMAGE_PER_FILE_SCALE = {"obstacle_2.png": 0.8}
+
+# 物品贴图缩放（仅视觉），按类型：'food' 和 'toy'
+ITEM_IMAGE_SCALE = {"food": 1.0, "toy": 1.0}
+
 # 创建日志函数（打印到控制台并写入文件，方便排查）
 LOG_FILE = os.path.join(os.path.dirname(__file__), "game_debug.log")
 
@@ -69,6 +93,34 @@ def log(msg: str):
         print(line)
     except Exception:
         pass
+    # Also append to a log file (best-effort; ignore failures)
+    try:
+        with open(LOG_FILE, "a", encoding="utf-8") as f:
+            f.write(line + "\n")
+    except Exception:
+        pass
+
+# Assets helpers
+ASSETS_DIR = os.path.join(os.path.dirname(__file__), "assets")
+
+def load_image(filename: str):
+    """Load PNG from ./assets; return None if missing or failed."""
+    path = os.path.join(ASSETS_DIR, filename)
+    if not os.path.exists(path):
+        try:
+            log(f"Asset not found: {filename}")
+        except Exception:
+            pass
+        return None
+    try:
+        return pygame.image.load(path).convert_alpha()
+    except Exception as e:
+        log(f"Failed to load {filename}: {e}")
+        return None
+
+def blit_centered(surf: pygame.Surface, tex: pygame.Surface, x: float, y: float):
+    rect = tex.get_rect(center=(int(x), int(y)))
+    surf.blit(tex, rect)
 
 def clamp(v: float, lo: float, hi: float) -> float:
     return max(lo, min(hi, v))
@@ -108,18 +160,13 @@ def resolve_circle_rect_collision(cx: float, cy: float, r: float, rect: pygame.R
         vx = vx - 2*dot*nx
         vy = vy - 2*dot*ny
     return cx, cy, vx, vy
-    try:
-        with open(LOG_FILE, "a", encoding="utf-8") as f:
-            f.write(line + "\n")
-    except Exception:
-        pass
 
 log("Program start: initializing display window...")
 
 # 创建游戏窗口（捕获异常，记录日志）
 try:
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption("抓小猫投喂游戏")
+    pygame.display.set_caption("Cat Feeding Game")
     log("Display window created successfully.")
 except Exception as e:
     log(f"Failed to create display window: {e}")
@@ -142,6 +189,21 @@ class Cat:
         self.playfulness = 50  # 玩耍欲 0-100
         self.affinity = 0  # 亲密度 0-100
         self.growth_stage = 1  # 成长阶段
+        # 可选：阶段精灵图，由 Game 注入 {1: [Surface, Surface], 2: [...], 3: [...]}
+        # 若只提供1帧，会在加载阶段进行复制成2帧
+        self.sprite_images = None
+        self._cache_key = None  # (stage, size)
+        # 逐帧缓存（按 size 与阶段缩放后）：[[frame0, frame1], flipped 同理]
+        self._cached_scaled_frames = None
+        self._cached_flipped_frames = None
+        # 兼容旧字段（不再使用）
+        self._cached_scaled = None
+        self._cached_flipped = None  # 水平镜像缓存
+        self.facing_right = True     # 朝向，基于 dx 更新
+        # 动画状态
+        self._anim_frame = 0
+        self._anim_counter = 0
+        self._last_draw_pos = (self.x, self.y)
         
     def move(self, speed_scale: float = 1.0):
         # 去掉抖动：不再随机改变方向，仅按当前方向匀速移动
@@ -171,6 +233,9 @@ class Cat:
         elif self.y > max_y:
             self.y = max_y
             self.dy *= -1
+        
+        # 更新朝向（基于当前水平速度方向）
+        self.facing_right = (self.dx >= 0)
             
         # 随机改变需求
         if random.random() < 0.01:
@@ -194,15 +259,54 @@ class Cat:
             self.color = (100, 100, 100)  # 更深的灰色
             
     def draw(self):
-        # 绘制猫咪
+        # 若有精灵，优先绘制精灵（按阶段与 size 缩放缓存），并进行两帧走路动画
+        if self.sprite_images and isinstance(self.sprite_images, dict):
+            frames = self.sprite_images.get(self.growth_stage)
+            if frames is not None and len(frames) > 0:
+                # 确保至少两帧
+                if len(frames) == 1:
+                    frames = [frames[0], frames[0]]
+                key = (self.growth_stage, self.size)
+                if key != self._cache_key or self._cached_scaled_frames is None or self._cached_flipped_frames is None:
+                    wh = max(2 * int(self.size), 2)
+                    try:
+                        scaler = pygame.transform.smoothscale if CAT_IMAGE_FILTER == 'smooth' else pygame.transform.scale
+                        scaled = [scaler(fr, (wh, wh)) for fr in frames[:2]]
+                        flipped = [pygame.transform.flip(sf, True, False) for sf in scaled]
+                        self._cached_scaled_frames = scaled
+                        self._cached_flipped_frames = flipped
+                    except Exception:
+                        self._cached_scaled_frames = None
+                        self._cached_flipped_frames = None
+                    self._cache_key = key
+                # 动画更新：根据位移判断是否行走
+                moved_dist = math.hypot(self.x - self._last_draw_pos[0], self.y - self._last_draw_pos[1])
+                is_moving = moved_dist > 0.2
+                if is_moving:
+                    self._anim_counter += 1
+                    if self._anim_counter >= CAT_WALK_ANIM_INTERVAL_FRAMES:
+                        self._anim_counter = 0
+                        self._anim_frame = 1 - self._anim_frame
+                else:
+                    self._anim_counter = 0
+                    self._anim_frame = 0
+                self._last_draw_pos = (self.x, self.y)
+                # 选择朝向与当前动画帧
+                if self._cached_scaled_frames is not None and self._cached_flipped_frames is not None:
+                    if self.facing_right:
+                        chosen = self._cached_scaled_frames[self._anim_frame]
+                    else:
+                        chosen = self._cached_flipped_frames[self._anim_frame]
+                    if chosen is not None:
+                        blit_centered(screen, chosen, self.x, self.y)
+                        return
+        # 回退：绘制默认几何猫
         pygame.draw.circle(screen, self.color, (int(self.x), int(self.y)), self.size)
-        # 绘制眼睛
         eye_offset = self.size // 3
         pygame.draw.circle(screen, WHITE, (int(self.x) - eye_offset, int(self.y) - eye_offset//2), self.size // 6)
         pygame.draw.circle(screen, WHITE, (int(self.x) + eye_offset, int(self.y) - eye_offset//2), self.size // 6)
         pygame.draw.circle(screen, BLACK, (int(self.x) - eye_offset, int(self.y) - eye_offset//2), self.size // 12)
         pygame.draw.circle(screen, BLACK, (int(self.x) + eye_offset, int(self.y) - eye_offset//2), self.size // 12)
-        # 绘制嘴巴
         pygame.draw.line(screen, BLACK, (int(self.x), int(self.y)), (int(self.x), int(self.y) + self.size//4), 2)
         
     def get_current_need(self):
@@ -220,6 +324,8 @@ class Player:
         self.selected_item = "food"  # 默认选中食物
         self.thrown_items = []
         self.consecutive_wrong = 0  # 连续错误命中次数
+        # 可选：物品图像，由 Game 加载注入
+        self.item_images = {"food": None, "toy": None}
         
     def throw_item(self, mouse_pos, cat_pos, game_ref=None):
         # 投掷物品
@@ -229,6 +335,21 @@ class Player:
                 expected_need = game_ref.cat.get_current_need()
             except Exception:
                 expected_need = None
+        radius = 10
+        # 预缩放物品贴图（若存在）
+        base_img = self.item_images.get(self.selected_item)
+        scaled_img = None
+        if base_img is not None:
+            try:
+                wh = max(2 * radius, 2)
+                # 按类型的视觉缩放
+                item_extra = ITEM_IMAGE_SCALE.get(self.selected_item, 1.0)
+                if item_extra != 1.0:
+                    wh = max(1, int(round(wh * item_extra)))
+                scaled_img = pygame.transform.smoothscale(base_img, (wh, wh))
+            except Exception as e:
+                log(f"Scale item image failed: {e}")
+                scaled_img = None
         item = {
             "type": self.selected_item,
             "x": mouse_pos[0],
@@ -236,11 +357,12 @@ class Player:
             "target_x": cat_pos[0],
             "target_y": cat_pos[1],
             "speed": 8,
-            "radius": 10,
+            "radius": radius,
             "color": GREEN if self.selected_item == "food" else YELLOW,
             "thrown": True,
             "game_ref": game_ref,
             "expected_need": expected_need,
+            "image": scaled_img,
         }
         self.thrown_items.append(item)
         
@@ -278,9 +400,13 @@ class Player:
         return None
         
     def draw_items(self):
-        # 绘制投掷中的物品
+        # 绘制投掷中的物品（优先使用贴图）
         for item in self.thrown_items:
-            pygame.draw.circle(screen, item["color"], (int(item["x"]), int(item["y"])), item["radius"])
+            img = item.get("image")
+            if img is not None:
+                blit_centered(screen, img, item["x"], item["y"])
+            else:
+                pygame.draw.circle(screen, item["color"], (int(item["x"]), int(item["y"])), item["radius"]) 
             
     def switch_item(self):
         # 切换物品
@@ -293,9 +419,12 @@ class Game:
         self.player = Player()
         # 状态
         self.running = True
+        self.started = False   # 是否已经开始（开始界面）
+        self.paused = False    # 是否处于暂停
         # 字体
-        self.font = pygame.font.Font(font_path, 24)
-        self.large_font = pygame.font.Font(font_path, 36)
+        # 缩小通用字体，避免顶部工具栏文字重叠
+        self.font = pygame.font.Font(font_path, 18)
+        self.large_font = pygame.font.Font(font_path, 32)
         # 定义障碍物（矩形），位于工具栏下方区域
         self.obstacles = [
             pygame.Rect(150, 140, 120, 80),
@@ -305,6 +434,8 @@ class Game:
             pygame.Rect(0, HEIGHT - 120, 140, 120),
         ]
         self.obstacle_color = (120, 120, 120)
+        # 载入 PNG 素材（不存在会回退到默认图形）
+        self._load_assets()
         # 躲猫猫状态
         self.hide_target = None  # (x, y)
         self.hide_frames = 0     # 剩余躲藏帧数（保持在1-2秒）
@@ -315,7 +446,7 @@ class Game:
         self.idle_frames = 0
         # 对话框文本（避免频繁抖动，改为每3-5秒随机刷新）
         initial_need = self.cat.get_current_need()
-        self.need_text = "我想吃东西！" if initial_need == "food" else "我想玩玩具！"
+        self.need_text = "I want food!" if initial_need == "food" else "I want a toy!"
         self._need_frames_left = random.randint(BUBBLE_REFRESH_MIN_FRAMES, BUBBLE_REFRESH_MAX_FRAMES)
         # 气泡位置与方向（平滑跟随、粘性朝向）
         self._bubble_pos = None  # type: ignore
@@ -326,6 +457,11 @@ class Game:
         self.game_over = False
         self.game_result = None  # 'win' | 'lose' | 'summary'
         self.end_message = ""
+        # 至少完成的“完全躲藏”次数目标
+        self.min_hide_goal = 3
+        self.hide_completed = 0           # 已完成的完全躲藏次数
+        self.hide_session_had_wait = False  # 本次躲藏是否进入过等待状态（即已到达内部）
+        self.force_hide_cooldown = 0      # 强制触发的冷却，避免连续强制
 
     def ensure_open_spot(self):
         """把猫从障碍物里挪到无遮挡位置，并确保不进入工具栏区域。"""
@@ -344,6 +480,93 @@ class Game:
             if not moved:
                 break
 
+    def _load_assets(self):
+        """Load PNG assets and inject into Cat/Player/obstacle drawing with fallbacks."""
+        # Cat sprites per growth stage with optional 2-frame animation
+        def load_stage_frames(stage_n: int):
+            f1 = load_image(f"cat_stage{stage_n}_1.png")
+            f2 = load_image(f"cat_stage{stage_n}_2.png")
+            if not f1 and not f2:
+                base = load_image(f"cat_stage{stage_n}.png")
+                if base:
+                    return [base, base]
+                return None
+            # ensure two frames using fallback duplication
+            return [f1 or f2, f2 or f1]
+
+        st1 = load_stage_frames(1)
+        st2 = load_stage_frames(2)
+        st3 = load_stage_frames(3)
+        if any([st1, st2, st3]):
+            # Graceful fallback if some stages missing
+            st1 = st1 or st2 or st3
+            st2 = st2 or st1 or st3
+            st3 = st3 or st2 or st1
+            self.cat.sprite_images = {1: st1, 2: st2, 3: st3}
+        # Item images (optional)
+        self.player.item_images["food"] = load_image("food.png")
+        self.player.item_images["toy"] = load_image("toy.png")
+        # Obstacle textures with per-rect support and aspect-ratio preserving scaling.
+        # Supports assets/obstacle_1.png, obstacle_2.png, ... with fallback to assets/obstacle.png.
+        # Stores (surface, dx, dy) per obstacle for proper centering/alignment without distortion.
+        self.obstacle_surfs = []
+        shared_tex = load_image("obstacle.png")
+        for i, r in enumerate(self.obstacles):
+            per_name = f"obstacle_{i+1}.png"
+            per_tex = load_image(per_name)
+            tex = per_tex or shared_tex
+            if tex is None:
+                self.obstacle_surfs.append(None)
+                continue
+            tw, th = tex.get_width(), tex.get_height()
+            if tw <= 0 or th <= 0:
+                self.obstacle_surfs.append(None)
+                continue
+            # Determine scaled size by mode
+            if OBSTACLE_IMAGE_SCALE_MODE == 'stretch':
+                new_w, new_h = r.width, r.height
+            else:
+                sx = r.width / tw
+                sy = r.height / th
+                scale = min(sx, sy) if OBSTACLE_IMAGE_SCALE_MODE == 'contain' else max(sx, sy)
+                new_w = max(1, int(round(tw * scale)))
+                new_h = max(1, int(round(th * scale)))
+            # Apply extra visual scale (global * per-obstacle * per-file)
+            fname = per_name if per_tex is not None else "obstacle.png"
+            extra = (
+                OBSTACLE_IMAGE_GLOBAL_SCALE
+                * OBSTACLE_IMAGE_PER_SCALE.get(i+1, 1.0)
+                * OBSTACLE_IMAGE_PER_FILE_SCALE.get(fname, 1.0)
+            )
+            if extra != 1.0:
+                new_w = max(1, int(round(new_w * extra)))
+                new_h = max(1, int(round(new_h * extra)))
+            # Choose filter
+            scaler = pygame.transform.smoothscale if OBSTACLE_IMAGE_FILTER == 'smooth' else pygame.transform.scale
+            try:
+                scaled = scaler(tex, (new_w, new_h))
+            except Exception:
+                scaled = None
+            if scaled is None:
+                self.obstacle_surfs.append(None)
+                continue
+            # Alignment offset within rect
+            if OBSTACLE_IMAGE_ALIGN == 'bottom':
+                dx = (r.width - new_w) // 2
+                dy = (r.height - new_h)
+            else:  # center
+                dx = (r.width - new_w) // 2
+                dy = (r.height - new_h) // 2
+            self.obstacle_surfs.append((scaled, dx, dy))
+        # Background (optional)
+        self.background = None
+        bg = load_image("background.png")
+        if bg is not None:
+            try:
+                self.background = pygame.transform.smoothscale(bg, (WIDTH, HEIGHT))
+            except Exception:
+                self.background = None
+
     def compute_hide_spot(self, mouse_pos: Tuple[int, int]) -> Tuple[int, int]:
         """挑选距离猫最近的障碍物，并在相对鼠标的背面【障碍物内部】生成目标点，保证被遮挡。"""
         if not self.obstacles:
@@ -358,15 +581,20 @@ class Game:
         inset_x = max(HIDE_INSET_MIN, min(int(nearest.width * HIDE_INSET_FRACTION), self.cat.size))
         inset_y = max(HIDE_INSET_MIN, min(int(nearest.height * HIDE_INSET_FRACTION), self.cat.size))
         if abs(dx) >= abs(dy):
-            # 左/右侧隐藏（内部）
+            # 左/右侧隐藏（内部），允许从左/右露出，但不允许从底部露出
             side_sign = 1 if dx >= 0 else -1  # 鼠标在左 => 选右侧
             tx = nearest.centerx + side_sign * (nearest.width / 2 - inset_x)
-            # 尽量保持和猫当前y接近，同时限制在矩形内部
+            # y靠近当前值，但强制不超过障碍底边减去猫半径，避免从底部露出
             ty = clamp(cy, nearest.top + inset_y, nearest.bottom - inset_y)
+            safe_bottom_y = nearest.bottom - self.cat.size - 1
+            if safe_bottom_y >= nearest.top + inset_y:
+                ty = min(ty, safe_bottom_y)
+            else:
+                # 极端情况下障碍太矮，靠近顶部
+                ty = nearest.top + inset_y
         else:
-            # 上/下侧隐藏（内部）
-            side_sign = 1 if dy >= 0 else -1  # 鼠标在上 => 选下侧
-            ty = nearest.centery + side_sign * (nearest.height / 2 - inset_y)
+            # 垂直方向：强制选择顶部内部（允许从上方或上角露出，禁止自底部露出）
+            ty = nearest.top + inset_y
             tx = clamp(cx, nearest.left + inset_x, nearest.right - inset_x)
         # 最后兜底约束在屏幕内
         tx = clamp(tx, 0 + self.cat.size, WIDTH - self.cat.size)
@@ -378,6 +606,12 @@ class Game:
             if event.type == pygame.QUIT:
                 self.running = False
             elif event.type == pygame.KEYDOWN:
+                # 开始界面：按 Enter / Space 开始
+                if not self.started:
+                    if event.key in (pygame.K_RETURN, pygame.K_SPACE):
+                        self.started = True
+                        return
+                # 结算界面：R 重开 / Esc 退出
                 if self.game_over:
                     if event.key == pygame.K_r:
                         # 重新开始本局
@@ -386,11 +620,23 @@ class Game:
                     if event.key == pygame.K_ESCAPE:
                         self.running = False
                         return
-                if event.key == pygame.K_SPACE:
+                # 进行中：S 暂停/继续
+                if event.key == pygame.K_s and self.started and not self.game_over:
+                    self.paused = not self.paused
+                    return
+                # 非暂停时允许切换物品
+                if event.key == pygame.K_SPACE and self.started and not self.paused and not self.game_over:
                     self.player.switch_item()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:  # 左键点击
-                    # 检查是否点击工具栏外（游戏区域）
+                    # 开始界面：任意左键开始
+                    if not self.started:
+                        self.started = True
+                        return
+                    # 暂停与结算期间不响应投掷
+                    if self.paused or self.game_over:
+                        return
+                    # 进行中：检查是否点击工具栏外（游戏区域）
                     if event.pos[1] > 60:
                         self.player.throw_item(event.pos, (self.cat.x, self.cat.y), self)
         
@@ -415,19 +661,29 @@ class Game:
                     self.cat.hunger = max(0, self.cat.hunger - 15)
                 else:
                     self.cat.playfulness = max(0, self.cat.playfulness - 15)
-                return True, "正确! +1分"
+                return True, "Correct! +1"
             else:
                 # 投错了物品：不加分
                 self.player.consecutive_wrong += 1
                 if self.player.consecutive_wrong > 3:
                     self.cat.affinity = max(0, self.cat.affinity - 2)
-                return True, "不是这个!"
+                return True, "Not this one!"
         return False, ""
 
     def draw_obstacles(self):
-        # 绘制障碍物（用于遮挡猫咪/投掷物）
-        for rect in self.obstacles:
-            pygame.draw.rect(screen, self.obstacle_color, rect)
+        # 绘制障碍物：有纹理则使用，否则画矩形
+        for i, rect in enumerate(self.obstacles):
+            entry = None
+            if hasattr(self, "obstacle_surfs") and i < len(self.obstacle_surfs):
+                entry = self.obstacle_surfs[i]
+            if isinstance(entry, tuple) and len(entry) == 3 and entry[0] is not None:
+                tex, dx, dy = entry
+                screen.blit(tex, (rect.left + dx, rect.top + dy))
+            elif entry is not None and hasattr(entry, 'get_width'):
+                # Back-compat: plain surface without offset
+                screen.blit(entry, rect.topleft)
+            else:
+                pygame.draw.rect(screen, self.obstacle_color, rect)
 
     def draw_speech_bubble(self):
         # 在猫附近绘制一个带圆角和三角尾巴的对话框，显示当前需求
@@ -562,42 +818,83 @@ class Game:
         screen.blit(surf, (bx + pad, by + pad))
         
     def draw_ui(self):
-        # 绘制工具栏
+        # 绘制工具栏背景
         pygame.draw.rect(screen, (200, 200, 200), (0, 0, WIDTH, 60))
-        
-        # 绘制选中的物品
-        selected_text = f"当前选中: {'猫粮' if self.player.selected_item == 'food' else '玩具'}"
-        text_surface = self.font.render(selected_text, True, BLACK)
-        screen.blit(text_surface, (20, 20))
-        
-        # 绘制分数与连错次数
-        score_text = f"分数: {self.player.score}"
-        screen.blit(self.font.render(score_text, True, BLACK), (300, 20))
-        wrong = self.player.consecutive_wrong if hasattr(self.player, 'consecutive_wrong') else 0
-        wrong_color = RED if wrong > 3 else BLACK
-        wrong_text = f"连错: {wrong}"
-        screen.blit(self.font.render(wrong_text, True, wrong_color), (420, 20))
-        
-        # 绘制猫咪状态
-        affinity_text = f"亲密度: {int(self.cat.affinity)}%"
-        stage_text = f"成长阶段: {self.cat.growth_stage}"
-        screen.blit(self.font.render(affinity_text, True, BLACK), (WIDTH - 200, 20))
-        screen.blit(self.font.render(stage_text, True, BLACK), (WIDTH - 350, 20))
-        # 计时器
+
+        # 两行布局，避免重叠
+        gap = 12
+        left_x = 12
+        right_x = WIDTH - 12
+        row1_y = 8
+        row2_y = 32
+
+        # Row1-Left: Selected
+        selected_text = f"Selected: {'Food' if self.player.selected_item == 'food' else 'Toy'}"
+        sel_surf = self.font.render(selected_text, True, BLACK)
+        screen.blit(sel_surf, (left_x, row1_y))
+
+        # Row1-Right: Stage
+        stage_text = f"Stage: {self.cat.growth_stage}"
+        stage_surf = self.font.render(stage_text, True, BLACK)
+        screen.blit(stage_surf, (right_x - stage_surf.get_width(), row1_y))
+
+        # Row1-Center: Timer (centered)
         if hasattr(self, 'time_left'):
             secs = max(0, int(self.time_left // FPS))
-            timer_text = f"剩余: {secs:02d}s"
-            screen.blit(self.font.render(timer_text, True, BLACK), (WIDTH//2 - 40, 20))
+            timer_text = f"Time Left: {secs:02d}s"
+            timer_surf = self.font.render(timer_text, True, BLACK)
+            screen.blit(timer_surf, (WIDTH//2 - timer_surf.get_width()//2, row1_y))
+
+        # Row2-Left: Score + Wrong
+        score_text = f"Score: {self.player.score}"
+        score_surf = self.font.render(score_text, True, BLACK)
+        screen.blit(score_surf, (left_x, row2_y))
+
+        wrong = self.player.consecutive_wrong if hasattr(self.player, 'consecutive_wrong') else 0
+        wrong_color = RED if wrong > 3 else BLACK
+        wrong_text = f"Wrong: {wrong}"
+        wrong_surf = self.font.render(wrong_text, True, wrong_color)
+        screen.blit(wrong_surf, (left_x + score_surf.get_width() + gap, row2_y))
+
+        # Row2-Right: Affinity
+        affinity_text = f"Affinity: {int(self.cat.affinity)}%"
+        affinity_surf = self.font.render(affinity_text, True, BLACK)
+        screen.blit(affinity_surf, (right_x - affinity_surf.get_width(), row2_y))
+
         # 需求提示（红字）已按用户要求移除，不再显示
         
     def run(self):
         log("Game loop entering...")
         ticks = 0
         while self.running:
-            screen.fill(WHITE)
+            # 背景：优先绘制背景图，否则纯色填充
+            if hasattr(self, "background") and self.background is not None:
+                screen.blit(self.background, (0, 0))
+            else:
+                screen.fill(WHITE)
             
             # 处理事件
             self.handle_events()
+            
+            # 开始界面：显示开始提示，未开始不更新游戏状态
+            if not self.started:
+                # 半透明遮罩与标题
+                overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+                overlay.fill((0, 0, 0, 140))
+                screen.blit(overlay, (0, 0))
+                title = "Cat Feeding Game"
+                sub = "Press Enter or Click to Start"
+                hint = "Controls: Left Click = Throw, Space = Switch Item, S = Pause/Resume"
+                t_surf = self.large_font.render(title, True, WHITE)
+                s_surf = self.font.render(sub, True, WHITE)
+                h_surf = self.font.render(hint, True, WHITE)
+                cx = WIDTH//2
+                screen.blit(t_surf, (cx - t_surf.get_width()//2, HEIGHT//2 - 60))
+                screen.blit(s_surf, (cx - s_surf.get_width()//2, HEIGHT//2 - 16))
+                screen.blit(h_surf, (cx - h_surf.get_width()//2, HEIGHT//2 + 24))
+                pygame.display.flip()
+                clock.tick(FPS)
+                continue
             # 游戏结束态：只显示结算面板与UI，等待R/ESC
             if self.game_over:
                 # 背景可依然绘制基本元素，简单起见绘制UI与结束面板
@@ -607,14 +904,34 @@ class Game:
                 overlay.fill((0, 0, 0, 120))
                 screen.blit(overlay, (0, 0))
                 # 文本
-                title = "胜利!" if self.game_result == 'win' else ("失败" if self.game_result == 'lose' else "时间到")
+                title = "Victory!" if self.game_result == 'win' else ("Defeat" if self.game_result == 'lose' else "Time's Up")
                 t_surf = self.large_font.render(title, True, WHITE)
                 msg_surf = self.font.render(self.end_message, True, WHITE)
-                hint_surf = self.font.render("按 R 重开 / Esc 退出", True, WHITE)
+                hint_surf = self.font.render("Press R to restart / Esc to exit", True, WHITE)
                 cx = WIDTH//2
                 screen.blit(t_surf, (cx - t_surf.get_width()//2, HEIGHT//2 - 70))
                 screen.blit(msg_surf, (cx - msg_surf.get_width()//2, HEIGHT//2 - 20))
                 screen.blit(hint_surf, (cx - hint_surf.get_width()//2, HEIGHT//2 + 30))
+                pygame.display.flip()
+                clock.tick(FPS)
+                continue
+            # 暂停态：显示当前画面 + 暂停提示，不更新状态/计时
+            if self.paused:
+                # 绘制当前场景
+                self.cat.draw()
+                self.player.draw_items()
+                self.draw_obstacles()
+                self.draw_speech_bubble()
+                self.draw_ui()
+                # 覆盖暂停提示
+                overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+                overlay.fill((0, 0, 0, 100))
+                screen.blit(overlay, (0, 0))
+                p_surf = self.large_font.render("Paused", True, WHITE)
+                hint_surf = self.font.render("Press S to resume", True, WHITE)
+                cx = WIDTH//2
+                screen.blit(p_surf, (cx - p_surf.get_width()//2, HEIGHT//2 - 20))
+                screen.blit(hint_surf, (cx - hint_surf.get_width()//2, HEIGHT//2 + 24))
                 pygame.display.flip()
                 clock.tick(FPS)
                 continue
@@ -657,12 +974,20 @@ class Game:
                 if dist > step:
                     self.cat.x += (dx / dist) * step
                     self.cat.y += (dy / dist) * step
+                    # 根据目标方向更新朝向，以便隐藏过程中也镜像正确
+                    if abs(dx) > 1e-3:
+                        self.cat.facing_right = (dx >= 0)
                 else:
                     # 到达目标，固定在目标点等待剩余时间
                     self.cat.x, self.cat.y = hx, hy
                     self.hide_waiting = True
+                    self.hide_session_had_wait = True
                 self.hide_frames -= 1
                 if self.hide_frames <= 0:
+                    # 结束一次躲藏会话，若曾成功到达内部，则计入完成次数
+                    if self.hide_session_had_wait:
+                        self.hide_completed += 1
+                    self.hide_session_had_wait = False
                     self.hide_target = None
                     self.hide_waiting = False
                     self.hide_cooldown = HIDE_COOLDOWN_FRAMES
@@ -685,7 +1010,7 @@ class Game:
             message = ""
             if hit_item:
                 if isinstance(hit_item, dict) and hit_item.get('_blocked'):
-                    message = "被障碍挡住！"
+                    message = "Blocked by obstacle!"
                 else:
                     hit, message = self.check_collision(hit_item)
             
@@ -713,12 +1038,14 @@ class Game:
             # 冷却递减
             if self.hide_cooldown > 0:
                 self.hide_cooldown -= 1
+            if self.force_hide_cooldown > 0:
+                self.force_hide_cooldown -= 1
             # 定期（每3-5秒随机）刷新对话文本
             if hasattr(self, "_need_frames_left"):
                 self._need_frames_left -= 1
                 if self._need_frames_left <= 0:
                     need = self.cat.get_current_need()
-                    self.need_text = "我想吃东西！" if need == "food" else "我想玩玩具！"
+                    self.need_text = "I want food!" if need == "food" else "I want a toy!"
                     self._need_frames_left = random.randint(BUBBLE_REFRESH_MIN_FRAMES, BUBBLE_REFRESH_MAX_FRAMES)
             # 计时与胜负判定
             if self.time_left > 0:
@@ -728,16 +1055,35 @@ class Game:
             if self.loss_grace <= 0 and self.cat.affinity <= 0 and not self.game_over:
                 self.game_over = True
                 self.game_result = 'lose'
-                self.end_message = "亲密度降为 0，猫咪溜走了……"
+                self.end_message = "Affinity dropped to 0. The cat ran away..."
             if self.time_left <= 0 and not self.game_over:
                 if self.cat.affinity >= 80 or self.cat.growth_stage >= 3:
                     self.game_over = True
                     self.game_result = 'win'
-                    self.end_message = f"恭喜！最终分数 {self.player.score}；亲密度 {int(self.cat.affinity)}%"
+                    self.end_message = f"Congrats! Final Score {self.player.score}; Affinity {int(self.cat.affinity)}%"
                 else:
                     self.game_over = True
                     self.game_result = 'summary'
-                    self.end_message = f"时间到。分数 {self.player.score}；亲密度 {int(self.cat.affinity)}%，阶段 {self.cat.growth_stage}"
+                    self.end_message = f"Time's up. Score {self.player.score}; Affinity {int(self.cat.affinity)}%, Stage {self.cat.growth_stage}"
+
+            # 保障：至少完成3次“完全躲藏”
+            # 在不处于躲藏/停驻/冷却时，若完成次数不足则强制触发一次，并保证有足够时间走到目标后再等待≥1s
+            if (not self.game_over and self.started and not self.paused 
+                and self.hide_frames <= 0 and not self.hide_waiting 
+                and self.idle_frames <= 0 and self.hide_cooldown <= 0 
+                and self.force_hide_cooldown <= 0 and self.hide_completed < self.min_hide_goal):
+                mx, my = pygame.mouse.get_pos()
+                if my > 60:
+                    target = self.compute_hide_spot((mx, my))
+                    self.hide_target = target
+                    # 计算到目标距离，给足行进帧数 + 至少1.2秒的停留
+                    dx = target[0] - self.cat.x
+                    dy = target[1] - self.cat.y
+                    dist = math.hypot(dx, dy)
+                    travel_frames = int(math.ceil((dist / max(1e-6, self.cat.speed))))
+                    wait_frames = int(1.2 * FPS)
+                    self.hide_frames = max(HIDE_DURATION_MIN_FRAMES, travel_frames + wait_frames)
+                    self.force_hide_cooldown = int(5 * FPS)
 
         log("Game loop exiting. Cleaning up...")
         pygame.quit()
