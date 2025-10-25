@@ -85,7 +85,7 @@ OBSTACLE_IMAGE_PER_SCALE = {2: 0.8, 1: 1.2, 3: 0.9, 4: 1.2}
 OBSTACLE_IMAGE_PER_FILE_SCALE = {"obstacle_2.png": 0.8}
 
 # 物品贴图缩放（仅视觉），按类型：'food' 和 'toy'
-ITEM_IMAGE_SCALE = {"food": 1.0, "toy": 1.0}
+ITEM_IMAGE_SCALE = {"food": 2.0, "toy": 1.0}
 
 # 季节过渡（障碍贴图/背景 Normal <-> Winter）
 SEASON_AUTO_CYCLE = False                # 禁用自动循环
@@ -194,6 +194,102 @@ def _resolve_font_path(preferred_filename: str | None) -> str:
     except Exception:
         pass
     return font_path
+
+def draw_pixel_fish(size=20):
+    """绘制像素风小鱼干"""
+    surf = pygame.Surface((size, size), pygame.SRCALPHA)
+    pixel = max(1, size // 10)  # 像素块大小
+    
+    # 定义小鱼干的像素图案（相对于中心的坐标）
+    # 鱼身（橙黄色）
+    fish_body = [
+        # 鱼头
+        (-3, -2), (-3, -1), (-3, 0), (-3, 1), (-3, 2),
+        (-2, -3), (-2, -2), (-2, -1), (-2, 0), (-2, 1), (-2, 2), (-2, 3),
+        (-1, -3), (-1, -2), (-1, -1), (-1, 0), (-1, 1), (-1, 2), (-1, 3),
+        (0, -2), (0, -1), (0, 0), (0, 1), (0, 2),
+        # 鱼尾
+        (1, -1), (1, 0), (1, 1),
+        (2, -2), (2, 0), (2, 2),
+        (3, -3), (3, -1), (3, 1), (3, 3),
+    ]
+    
+    # 鱼眼（深色）
+    fish_eye = [(-2, -1)]
+    
+    # 绘制鱼身
+    center_x, center_y = size // 2, size // 2
+    for px, py in fish_body:
+        x = center_x + px * pixel
+        y = center_y + py * pixel
+        pygame.draw.rect(surf, (255, 200, 100), (x, y, pixel, pixel))  # 橙黄色
+    
+    # 绘制鱼眼
+    for px, py in fish_eye:
+        x = center_x + px * pixel
+        y = center_y + py * pixel
+        pygame.draw.rect(surf, (80, 60, 40), (x, y, pixel, pixel))  # 深色
+    
+    # 添加轮廓
+    for px, py in fish_body:
+        x = center_x + px * pixel
+        y = center_y + py * pixel
+        pygame.draw.rect(surf, (200, 150, 80), (x, y, pixel, pixel), 1)  # 描边
+    
+    return surf
+
+def draw_pixel_toy(size=20):
+    """绘制像素风玩具（毛线球）- 更圆的版本"""
+    surf = pygame.Surface((size, size), pygame.SRCALPHA)
+    pixel = max(1, size // 10)
+    
+    # 更圆的毛线球图案（使用圆形算法）
+    ball_pixels = [
+        # 最上层（y=-4）
+        (-1, -4), (0, -4), (1, -4),
+        # 第二层（y=-3）
+        (-2, -3), (-1, -3), (0, -3), (1, -3), (2, -3),
+        # 第三层（y=-2）
+        (-3, -2), (-2, -2), (-1, -2), (0, -2), (1, -2), (2, -2), (3, -2),
+        # 中间层（y=-1）
+        (-3, -1), (-2, -1), (-1, -1), (0, -1), (1, -1), (2, -1), (3, -1),
+        # 中心层（y=0）
+        (-4, 0), (-3, 0), (-2, 0), (-1, 0), (0, 0), (1, 0), (2, 0), (3, 0), (4, 0),
+        # 中间层（y=1）
+        (-3, 1), (-2, 1), (-1, 1), (0, 1), (1, 1), (2, 1), (3, 1),
+        # 第三层（y=2）
+        (-3, 2), (-2, 2), (-1, 2), (0, 2), (1, 2), (2, 2), (3, 2),
+        # 第二层（y=3）
+        (-2, 3), (-1, 3), (0, 3), (1, 3), (2, 3),
+        # 最下层（y=4）
+        (-1, 4), (0, 4), (1, 4),
+    ]
+    
+    # 线条图案（深色）- 螺旋线条
+    yarn_lines = [
+        # 对角线1
+        (-2, -2), (-1, -1), (0, 0), (1, 1), (2, 2),
+        # 对角线2
+        (-2, 2), (-1, 1), (1, -1), (2, -2),
+        # 横线
+        (-2, 0), (2, 0),
+    ]
+    
+    center_x, center_y = size // 2, size // 2
+    
+    # 绘制球体
+    for px, py in ball_pixels:
+        x = center_x + px * pixel
+        y = center_y + py * pixel
+        pygame.draw.rect(surf, (255, 100, 150), (x, y, pixel, pixel))  # 粉红色
+    
+    # 绘制线条
+    for px, py in yarn_lines:
+        x = center_x + px * pixel
+        y = center_y + py * pixel
+        pygame.draw.rect(surf, (200, 50, 100), (x, y, pixel, pixel))  # 深粉色
+    
+    return surf
 
 log("Program start: initializing display window...")
 
@@ -369,6 +465,7 @@ class Player:
         self.score = 0
         self.selected_item = "food"  # 默认选中食物
         self.thrown_items = []
+        self.landed_items = []  # 落地的物品
         self.consecutive_wrong = 0  # 连续错误命中次数
         # 可选：物品图像，由 Game 加载注入
         self.item_images = {"food": None, "toy": None}
@@ -385,6 +482,15 @@ class Player:
         # 预缩放物品贴图（若存在）
         base_img = self.item_images.get(self.selected_item)
         scaled_img = None
+        
+        # 优先使用像素风绘制，如果没有素材则使用像素风图案
+        if base_img is None:
+            # 使用像素风绘制
+            if self.selected_item == "food":
+                base_img = draw_pixel_fish(20)
+            else:  # toy
+                base_img = draw_pixel_toy(20)
+        
         if base_img is not None:
             try:
                 wh = max(2 * radius, 2)
@@ -396,63 +502,140 @@ class Player:
             except Exception as e:
                 log(f"Scale item image failed: {e}")
                 scaled_img = None
+        # 计算抛物线运动参数
+        dx = cat_pos[0] - mouse_pos[0]
+        dy = cat_pos[1] - mouse_pos[1]
+        distance = math.sqrt(dx*dx + dy*dy)
+        flight_time = max(30, distance / 8)  # 飞行时间（帧数）
+        
         item = {
             "type": self.selected_item,
             "x": mouse_pos[0],
             "y": mouse_pos[1],
+            "z": 0,  # 添加高度维度
             "target_x": cat_pos[0],
             "target_y": cat_pos[1],
+            "start_x": mouse_pos[0],
+            "start_y": mouse_pos[1],
             "speed": 8,
+            "vx": dx / flight_time,  # x方向速度
+            "vy": dy / flight_time,  # y方向速度
+            "vz": 3.0,  # 初始垂直速度（向上）
+            "gravity": 0.15,  # 重力加速度
+            "rotation": 0,  # 旋转角度
+            "rotation_speed": random.uniform(5, 15) * random.choice([-1, 1]),  # 旋转速度
+            "bounce_count": 0,  # 弹跳次数
             "radius": radius,
             "color": GREEN if self.selected_item == "food" else YELLOW,
             "thrown": True,
             "game_ref": game_ref,
             "expected_need": expected_need,
             "image": scaled_img,
+            "state": "flying",  # 状态：flying（飞行）或 landed（落地）
+            "lifetime": 600,  # 生命周期（帧数），约10秒后消失
         }
         self.thrown_items.append(item)
         
     def update_items(self):
         # 更新投掷物品的位置
         for item in self.thrown_items[:]:
-            # 计算到目标的方向
-            dx = item["target_x"] - item["x"]
-            dy = item["target_y"] - item["y"]
-            distance = math.sqrt(dx*dx + dy*dy)
+            if item["state"] == "landed":
+                # 落地的物品减少生命周期，添加淡出效果
+                item["lifetime"] -= 1
+                if item["lifetime"] <= 0:
+                    self.thrown_items.remove(item)
+                continue
             
-            if distance < item["speed"]:
-                item["x"] = item["target_x"]
-                item["y"] = item["target_y"]
-                self.thrown_items.remove(item)
-                return item  # 返回到达目标的物品
-            else:
-                # 移动物品
-                step_x = (dx / distance) * item["speed"]
-                step_y = (dy / distance) * item["speed"]
-                new_x = item["x"] + step_x
-                new_y = item["y"] + step_y
-                # 简单阻挡：若新位置进入障碍物，则该物品被挡住并消失
-                if 'game_ref' in item and item['game_ref'] is not None:
-                    game = item['game_ref']
-                    for rect in game.obstacles:
-                        if rect.collidepoint(int(new_x), int(new_y)):
-                            # 被障碍挡住，移除
-                            self.thrown_items.remove(item)
-                            # 通过在返回值里标记一个字段，通知外层显示消息
-                            item_copy = dict(item)
-                            item_copy['_blocked'] = True
-                            return item_copy
-                item["x"], item["y"] = new_x, new_y
+            # 飞行中的物品 - 使用抛物线运动
+            # 更新旋转角度
+            item["rotation"] += item["rotation_speed"]
+            
+            # 更新位置（抛物线）
+            item["x"] += item["vx"]
+            item["y"] += item["vy"]
+            item["z"] += item["vz"]
+            item["vz"] -= item["gravity"]  # 重力影响
+            
+            # 检查是否落地（z <= 0）
+            if item["z"] <= 0:
+                item["z"] = 0
+                item["bounce_count"] += 1
+                
+                # 弹跳效果
+                if item["bounce_count"] <= 2 and abs(item["vz"]) > 0.5:
+                    # 反弹，每次损失能量
+                    item["vz"] = -item["vz"] * 0.5
+                    item["vx"] *= 0.7  # 水平速度衰减
+                    item["vy"] *= 0.7
+                    item["rotation_speed"] *= 0.7
+                else:
+                    # 停止弹跳，标记为落地
+                    item["state"] = "landed"
+                    item["vx"] = 0
+                    item["vy"] = 0
+                    item["vz"] = 0
+                    item["rotation_speed"] = 0
+                    
+                    # 检查是否到达目标位置（接近猫咪）
+                    dx = item["x"] - item["target_x"]
+                    dy = item["y"] - item["target_y"]
+                    distance = math.sqrt(dx*dx + dy*dy)
+                    if distance < 30:  # 在目标附近落地
+                        return item
+            
+            # 检查障碍物碰撞
+            if 'game_ref' in item and item['game_ref'] is not None:
+                game = item['game_ref']
+                for rect in game.obstacles:
+                    if rect.collidepoint(int(item["x"]), int(item["y"])) and item["z"] < 20:
+                        # 碰到障碍物，立即落地
+                        item["state"] = "landed"
+                        item["z"] = 0
+                        item["vx"] = 0
+                        item["vy"] = 0
+                        item["vz"] = 0
+                        # 通过在返回值里标记一个字段，通知外层显示消息
+                        item_copy = dict(item)
+                        item_copy['_blocked'] = True
+                        return item_copy
         return None
         
     def draw_items(self):
-        # 绘制投掷中的物品（优先使用贴图）
+        # 绘制投掷中的物品（带阴影、高度和旋转效果）
         for item in self.thrown_items:
+            x = int(item["x"])
+            y = int(item["y"])
+            z = item.get("z", 0)
+            
+            # 绘制阴影（在物品下方）
+            if z > 0:
+                shadow_y = y  # 阴影始终在地面
+                shadow_size = max(3, int(item["radius"] * (1 - z / 100)))  # 高度越高阴影越小
+                shadow_alpha = int(100 * (1 - z / 150))  # 高度越高阴影越淡
+                if shadow_alpha > 0:
+                    shadow_surf = pygame.Surface((shadow_size * 2, shadow_size), pygame.SRCALPHA)
+                    pygame.draw.ellipse(shadow_surf, (0, 0, 0, shadow_alpha), 
+                                      (0, 0, shadow_size * 2, shadow_size))
+                    screen.blit(shadow_surf, (x - shadow_size, shadow_y - shadow_size // 2))
+            
+            # 计算物品显示位置（考虑高度）
+            display_y = int(y - z)
+            
+            # 绘制物品
             img = item.get("image")
+            rotation = item.get("rotation", 0)
+            
             if img is not None:
-                blit_centered(screen, img, item["x"], item["y"])
+                # 旋转图片
+                if rotation != 0 and item["state"] == "flying":
+                    rotated_img = pygame.transform.rotate(img, rotation)
+                    rect = rotated_img.get_rect(center=(x, display_y))
+                    screen.blit(rotated_img, rect)
+                else:
+                    blit_centered(screen, img, x, display_y)
             else:
-                pygame.draw.circle(screen, item["color"], (int(item["x"]), int(item["y"])), item["radius"]) 
+                # 绘制圆形（如果没有图片）
+                pygame.draw.circle(screen, item["color"], (x, display_y), item["radius"])
             
     def switch_item(self):
         # 切换物品
@@ -542,6 +725,13 @@ class Game:
         self.cat_leaving = False          # 猫是否正在离开屏幕
         self.cat_leave_direction = None   # 猫离开的方向：'up', 'down', 'left', 'right'
         self.waiting_for_player = False   # 猫已离开，等待玩家按键切换地图
+        
+        # 方向箭头UI动画
+        self.arrow_pulse = 0  # 脉动动画计数器
+        self.arrow_pulse_direction = 1  # 脉动方向
+        
+        # 准星/瞄准效果（像素风格）
+        self.target_blink = 0  # 闪烁计数器
 
     def ensure_open_spot(self):
         """把猫从障碍物里挪到无遮挡位置，并确保不进入工具栏区域。"""
@@ -743,6 +933,13 @@ class Game:
                     # 使用图片原始尺寸
                     width = img.get_width()
                     height = img.get_height()
+                    
+                    # 特殊处理：obstacle_snow_4.png 缩小2倍并向上移动50像素
+                    if img_file == "obstacle_snow_4.png":
+                        width = width // 2
+                        height = height // 2
+                        y = y - 50  # 向上移动
+                        img = pygame.transform.smoothscale(img, (width, height))
                     
                     # 创建障碍物矩形
                     rect = pygame.Rect(x, y, width, height)
@@ -956,6 +1153,9 @@ class Game:
     
     def _switch_map_instantly(self):
         """立即切换地图并让猫从对面进入"""
+        # 清除所有投掷物（场景切换时）
+        self.player.thrown_items.clear()
+        
         # 使用场景系统或背景列表
         if self.use_scene_system and self.scenes:
             # 切换到下一个场景
@@ -1020,8 +1220,8 @@ class Game:
         distance = math.sqrt(dx*dx + dy*dy)
         
         if distance < self.cat.size:
-            # 击中猫咪
-            cat_need = item.get("expected_need") or self.cat.get_current_need()
+            # 击中猫咪 - 始终使用猫咪当前的需求来判断
+            cat_need = self.cat.get_current_need()
             if item["type"] == cat_need:
                 # 只在投中猫咪需要的物品时加1分
                 self.player.score += 1
@@ -1034,12 +1234,18 @@ class Game:
                     self.cat.hunger = max(0, self.cat.hunger - 15)
                 else:
                     self.cat.playfulness = max(0, self.cat.playfulness - 15)
+                
+                # 命中正确，从列表中移除
+                if item in self.player.thrown_items:
+                    self.player.thrown_items.remove(item)
+                
                 return True, "Correct! +1"
             else:
-                # 投错了物品：不加分
+                # 投错了物品：不加分，物品留在地上
                 self.player.consecutive_wrong += 1
                 if self.player.consecutive_wrong > 3:
                     self.cat.affinity = max(0, self.cat.affinity - 2)
+                # 不移除物品，让它保持 landed 状态
                 return True, "Not this one!"
         return False, ""
 
@@ -1232,7 +1438,152 @@ class Game:
 
         # 绘制文字（最后）
         screen.blit(surf, (bx + pad, by + pad))
+    
+    def draw_direction_arrows(self):
+        """绘制像素风格的方向箭头UI提示 - 只显示小猫离开的方向"""
+        if not self.waiting_for_player or not self.cat_leave_direction:
+            return
         
+        # 更新脉动动画
+        self.arrow_pulse += self.arrow_pulse_direction * 2
+        if self.arrow_pulse >= 60:
+            self.arrow_pulse_direction = -1
+        elif self.arrow_pulse <= 0:
+            self.arrow_pulse_direction = 1
+        
+        # 计算透明度和偏移（呼吸效果）
+        alpha = int(120 + 100 * (self.arrow_pulse / 60))
+        offset = int(10 * (self.arrow_pulse / 60))
+        
+        arrow_color = (255, 255, 100)  # 黄色
+        
+        # 根据小猫离开的方向，只显示一个箭头指向该方向
+        arrow_config = {
+            'up': (WIDTH // 2, 80 - offset, 'up'),
+            'down': (WIDTH // 2, HEIGHT - 40 + offset, 'down'),
+            'left': (40 - offset, HEIGHT // 2, 'left'),
+            'right': (WIDTH - 40 + offset, HEIGHT // 2, 'right')
+        }
+        
+        if self.cat_leave_direction not in arrow_config:
+            return
+        
+        x, y, direction = arrow_config[self.cat_leave_direction]
+        
+        # 像素风箭头：用方块组成
+        # 箭头设计：
+        #     □         (尖端)
+        #    □□□
+        #   □□□□□
+        #    □□□
+        #    □□□
+        pixel_size = 4
+        
+        # 定义箭头形状（相对坐标，指向上方）
+        arrow_pattern = [
+            # 尖端
+            (0, -12),
+            # 第二行
+            (-4, -8), (0, -8), (4, -8),
+            # 第三行（最宽）
+            (-8, -4), (-4, -4), (0, -4), (4, -4), (8, -4),
+            # 箭身
+            (-4, 0), (0, 0), (4, 0),
+            (-4, 4), (0, 4), (4, 4),
+            (-4, 8), (0, 8), (4, 8),
+        ]
+        
+        # 根据方向旋转像素点
+        if direction == 'down':
+            arrow_pattern = [(px, -py) for px, py in arrow_pattern]
+        elif direction == 'left':
+            arrow_pattern = [(py, px) for px, py in arrow_pattern]
+        elif direction == 'right':
+            arrow_pattern = [(-py, px) for px, py in arrow_pattern]
+        
+        # 创建带透明度的surface
+        arrow_surf = pygame.Surface((80, 80), pygame.SRCALPHA)
+        
+        # 绘制每个像素块
+        for px, py in arrow_pattern:
+            rect_x = 40 + px - pixel_size // 2
+            rect_y = 40 + py - pixel_size // 2
+            pygame.draw.rect(arrow_surf, (*arrow_color, alpha), 
+                           (rect_x, rect_y, pixel_size, pixel_size))
+        
+        # 绘制到屏幕
+        rect = arrow_surf.get_rect(center=(x, y))
+        screen.blit(arrow_surf, rect)
+        
+    def draw_targeting(self):
+        """绘制像素风格的瞄准效果"""
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        
+        # 计算猫的碰撞矩形
+        cat_left = self.cat.x - self.cat.size
+        cat_top = self.cat.y - self.cat.size
+        cat_width = self.cat.size * 2
+        cat_height = self.cat.size * 2
+        
+        # 检测鼠标是否悬停在猫上
+        margin = 5
+        is_hovering = (cat_left + margin <= mouse_x <= cat_left + cat_width - margin and
+                      cat_top + margin <= mouse_y <= cat_top + cat_height - margin)
+        
+        # 像素风准星 - 用小方块组成
+        pixel_size = 3  # 每个像素块的大小
+        if is_hovering:
+            crosshair_color = (255, 80, 80)  # 红色
+            gap = 8  # 中心空隙
+            arm_length = 12  # 准星臂长
+        else:
+            crosshair_color = (255, 255, 255)  # 白色
+            gap = 6
+            arm_length = 10
+        
+        # 绘制十字准星的四个方向（用像素块）
+        # 上
+        for i in range(gap, gap + arm_length, pixel_size):
+            pygame.draw.rect(screen, crosshair_color, 
+                           (mouse_x - pixel_size//2, mouse_y - i, pixel_size, pixel_size))
+        # 下
+        for i in range(gap, gap + arm_length, pixel_size):
+            pygame.draw.rect(screen, crosshair_color, 
+                           (mouse_x - pixel_size//2, mouse_y + i, pixel_size, pixel_size))
+        # 左
+        for i in range(gap, gap + arm_length, pixel_size):
+            pygame.draw.rect(screen, crosshair_color, 
+                           (mouse_x - i, mouse_y - pixel_size//2, pixel_size, pixel_size))
+        # 右
+        for i in range(gap, gap + arm_length, pixel_size):
+            pygame.draw.rect(screen, crosshair_color, 
+                           (mouse_x + i, mouse_y - pixel_size//2, pixel_size, pixel_size))
+        
+        # 中心点
+        pygame.draw.rect(screen, crosshair_color, 
+                        (mouse_x - pixel_size//2, mouse_y - pixel_size//2, pixel_size, pixel_size))
+        
+        # 如果悬停在猫上，绘制像素风闪烁方块
+        if is_hovering:
+            self.target_blink += 1
+            if self.target_blink >= 30:
+                self.target_blink = 0
+            
+            # 闪烁效果（每15帧切换）
+            if self.target_blink < 15:
+                # 在猫的四个角落绘制像素方块
+                corner_size = 6
+                offset = int(self.cat.size) + 5
+                corners = [
+                    (int(self.cat.x) - offset, int(self.cat.y) - offset),  # 左上
+                    (int(self.cat.x) + offset - corner_size, int(self.cat.y) - offset),  # 右上
+                    (int(self.cat.x) - offset, int(self.cat.y) + offset - corner_size),  # 左下
+                    (int(self.cat.x) + offset - corner_size, int(self.cat.y) + offset - corner_size),  # 右下
+                ]
+                
+                for cx, cy in corners:
+                    pygame.draw.rect(screen, (255, 255, 0), (cx, cy, corner_size, corner_size))
+    
     def draw_ui(self):
         # 绘制工具栏背景
         pygame.draw.rect(screen, (200, 200, 200), (0, 0, WIDTH, 60))
@@ -1510,6 +1861,11 @@ class Game:
             # 对话框绘制在障碍物之上，确保可见
             self.draw_speech_bubble()
             self.draw_ui()
+            # 方向箭头提示（等待玩家时显示）
+            self.draw_direction_arrows()
+            # 瞄准效果（不在等待玩家状态时显示）
+            if not self.waiting_for_player:
+                self.draw_targeting()
             
             # 显示消息
             if message:

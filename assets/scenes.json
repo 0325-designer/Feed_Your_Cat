@@ -4,19 +4,19 @@
       "name": "Grassland",
       "background": "background_1.png",
       "obstacles": [
-        {"x": 200, "y": 180, "width": 140, "height": 100, "image": "obstacle_grass_1.png"},
-        {"x": 450, "y": 300, "width": 120, "height": 90, "image": "obstacle_grass_2.png"},
-        {"x": 100, "y": 400, "width": 150, "height": 110, "image": "obstacle_grass_3.png"},
-        {"x": 600, "y": 150, "width": 130, "height": 95, "image": "obstacle_grass_4.png"}
+        {"x": 150, "y": 120, "width": 140, "height": 100, "image": "obstacle_grass_1.png"},
+        {"x": 500, "y": 350, "width": 120, "height": 90, "image": "obstacle_grass_2.png"},
+        {"x": 80, "y": 440, "width": 150, "height": 110, "image": "obstacle_grass_3.png"},
+        {"x": 650, "y": 180, "width": 130, "height": 95, "image": "obstacle_grass_4.png"}
       ]
     },
     {
       "name": "Snow",
       "background": "background_2.png",
       "obstacles": [
-        {"x": 180, "y": 200, "width": 160, "height": 85, "image": "obstacle_snow_1.png"},
-        {"x": 420, "y": 320, "width": 140, "height": 100, "image": "obstacle_snow_2.png"},
-        {"x": 650, "y": 180, "width": 120, "height": 90, "image": "obstacle_snow_3.png"},
+        {"x": 300, "y": 150, "width": 160, "height": 85, "image": "obstacle_snow_1.png"},
+        {"x": 100, "y": 320, "width": 140, "height": 100, "image": "obstacle_snow_2.png"},
+        {"x": 550, "y": 240, "width": 120, "height": 90, "image": "obstacle_snow_3.png"},
         {"x": 80, "y": 450, "width": 150, "height": 120, "image": "obstacle_snow_4.png"}
       ]
     },
@@ -24,10 +24,10 @@
       "name": "Beach",
       "background": "background_3.png",
       "obstacles": [
-        {"x": 150, "y": 140, "width": 120, "height": 80, "image": "obstacle_beach_1.png"},
-        {"x": 380, "y": 260, "width": 160, "height": 90, "image": "obstacle_beach_2.png"},
-        {"x": 620, "y": 120, "width": 100, "height": 140, "image": "obstacle_beach_3.png"},
-        {"x": 50, "y": 480, "width": 140, "height": 100, "image": "obstacle_beach_4.png"}
+        {"x": 250, "y": 200, "width": 120, "height": 80, "image": "obstacle_beach_1.png"},
+        {"x": 600, "y": 350, "width": 160, "height": 90, "image": "obstacle_beach_2.png"},
+        {"x": 450, "y": 140, "width": 100, "height": 140, "image": "obstacle_beach_3.png"},
+        {"x": 50, "y": 380, "width": 140, "height": 100, "image": "obstacle_beach_4.png"}
       ]
     }
   ]
