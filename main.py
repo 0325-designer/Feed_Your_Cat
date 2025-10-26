@@ -970,7 +970,7 @@ class Game:
         mx, my = mouse_pos
         dx = nearest.centerx - mx
         dy = nearest.centery - my
-        # 在鼠标相对障碍的“远侧”选择一个离边缘略微内缩的位置，保证中心进入矩形内部从而被遮挡
+        # On the far side of the obstacle relative to the mouse, choose a slightly inset point so the center is inside the rect and gets occluded
         inset_x = max(HIDE_INSET_MIN, min(int(nearest.width * HIDE_INSET_FRACTION), self.cat.size))
         inset_y = max(HIDE_INSET_MIN, min(int(nearest.height * HIDE_INSET_FRACTION), self.cat.size))
         if abs(dx) >= abs(dy):
@@ -1315,7 +1315,7 @@ class Game:
         pad = 8
         surf = self.font.render(text, True, BLACK)
         bw, bh = surf.get_width() + pad * 2, surf.get_height() + pad * 2
-        # 计算期望位置（带“粘性”方向与平滑动画），优先 top，若不合法按 right/left/bottom 备选
+    # Compute desired position (with sticky side and smooth animation); prefer top, else fall back to right/left/bottom if invalid
         margin = 8
         def calc_rect(side: str):
             if side == 'top':
@@ -1352,9 +1352,9 @@ class Game:
             candidates.remove(self.bubble_side)
             candidates.insert(0, self.bubble_side)
 
-        # 根据“合法性 + 不遮挡 + 距离鼠标最近 + 粘性偏好”综合评分选择
+    # Choose by composite score: validity + not occluded + closest to mouse + sticky preference
         mx, my = pygame.mouse.get_pos()
-        # 仅在鼠标靠近猫时才启用“贴近玩家一侧”的偏好
+    # Enable 'near player side' bias only when the mouse is close to the cat
         mc_dist = math.hypot(self.cat.x - mx, self.cat.y - my)
         apply_mouse_bias = mc_dist <= BUBBLE_MOUSE_BIAS_DISTANCE
         best = None  # (score, side, rect)
@@ -1769,7 +1769,7 @@ class Game:
                         # Reset interval
                         self.idle_cooldown = int(10 * FPS)
 
-                # 触发“躲猫猫”行为：鼠标靠近时优先触发，平时也有小概率触发，并考虑冷却；停驻时不触发
+                # Trigger hide-and-seek behavior: prioritize when mouse is near; otherwise low random chance with cooldown; don't trigger while stationary
                 if self.hide_frames <= 0 and self.idle_frames <= 0 and self.hide_cooldown <= 0 and mouse_pos[1] > 60:
                     # Mouse-cat distance
                     mdx = mouse_pos[0] - self.cat.x
@@ -1785,7 +1785,7 @@ class Game:
                     # Ensure don't accidentally enter toolbar
                     self.cat.y = max(60 + self.cat.size, self.cat.y)
                 elif self.hide_frames > 0 and self.hide_target is not None:
-                    # 朝躲藏点移动；到达后停留直到计时结束，确保“彻底躲藏”1-2秒
+                    # Move toward hiding spot; on arrival, wait until timer ends to ensure 1–2 seconds of fully hidden state
                     hx, hy = self.hide_target
                     dx = hx - self.cat.x
                     dy = hy - self.cat.y
@@ -1826,7 +1826,7 @@ class Game:
                     # Regular movement: slow down in open areas
                     self.cat.move(CAT_OPEN_SPEED_FACTOR)
                 # Cat-obstacle collision handling (circle-rect): use normal reflection, reduce jitter
-                # 正在“躲藏”期间允许猫进入障碍物内部（被遮挡），因此跳过碰撞推出
+                # While hiding, allow the cat to enter obstacles (be occluded), so skip collision push-out
                 if not (self.hide_frames > 0 or self.hide_waiting):
                     for rect in self.obstacles:
                         if circle_rect_overlap(self.cat.x, self.cat.y, self.cat.size, rect):
@@ -1858,7 +1858,7 @@ class Game:
             self.player.draw_items()
             # Obstacles drawn last, used to occlude cat and items
             self.draw_obstacles()
-            # 对话框绘制在障碍物之Up，确保可见
+            # Draw the speech bubble above obstacles to keep it visible
             self.draw_speech_bubble()
             self.draw_ui()
             # Direction arrow hint (show when waiting for player)
@@ -1875,23 +1875,23 @@ class Game:
             # Refresh screen
             pygame.display.flip()
             clock.tick(FPS)
-            # 约每秒打印一次心跳日志，确认循环在运行
+            # Print a heartbeat roughly once per second to confirm the loop is running
             ticks += 1
             if ticks % FPS == 0:
                 log(f"Heartbeat: running, score={self.player.score}, affinity={self.cat.affinity}, stage={self.cat.growth_stage}, wrong_streak={self.player.consecutive_wrong}")
-            # 冷却递减
+            # Cooldowns tick down
             if self.hide_cooldown > 0:
                 self.hide_cooldown -= 1
             if self.force_hide_cooldown > 0:
                 self.force_hide_cooldown -= 1
-            # 定期（每3-5秒随机）刷新对话Text
+            # Periodically refresh speech text (random every 3–5 seconds)
             if hasattr(self, "_need_frames_left"):
                 self._need_frames_left -= 1
                 if self._need_frames_left <= 0:
                     need = self.cat.get_current_need()
                     self.need_text = "I want food!" if need == "food" else "I want a toy!"
                     self._need_frames_left = random.randint(BUBBLE_REFRESH_MIN_FRAMES, BUBBLE_REFRESH_MAX_FRAMES)
-            # 计时与胜负判定
+            # Timer and win/lose conditions
             if self.time_left > 0:
                 self.time_left -= 1
             if self.loss_grace > 0:
@@ -1910,8 +1910,8 @@ class Game:
                     self.game_result = 'summary'
                     self.end_message = f"Time's up. Score {self.player.score}; Affinity {int(self.cat.affinity)}%, Stage {self.cat.growth_stage}"
 
-            # 保障：至少完成3次“完全躲藏”
-            # 在不处于躲藏/停驻/冷却时，若完成次数不足则强制触发一次，并保证有足够时间走到目标后再等待≥1s
+            # Guarantee: complete at least three fully hidden events
+            # If not hiding/stationary/on cooldown and the count is insufficient, force one hide and ensure enough time to reach the target plus ≥1s wait
             if (not self.game_over and self.started and not self.paused 
                 and self.hide_frames <= 0 and not self.hide_waiting 
                 and self.idle_frames <= 0 and self.hide_cooldown <= 0 
@@ -1920,7 +1920,7 @@ class Game:
                 if my > 60:
                     target = self.compute_hide_spot((mx, my))
                     self.hide_target = target
-                    # 计算到目标距离，给足行进帧数 + 至少1.2秒的停留
+                    # Compute distance to target; allocate travel frames plus at least 1.2 seconds of lingering
                     dx = target[0] - self.cat.x
                     dy = target[1] - self.cat.y
                     dist = math.hypot(dx, dy)
@@ -1934,7 +1934,7 @@ class Game:
         log("Pygame quit done. Exiting process.")
         sys.exit()
 
-# 启动游戏
+# Start the game
 if __name__ == "__main__":
     try:
         log("__main__ entry reached. Starting Game()...")
