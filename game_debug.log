@@ -7174,3 +7174,51 @@ AttributeError: 'Cat' object has no attribute 'rect'
 [2025-10-25 20:01:17] Heartbeat: running, score=8, affinity=14, stage=1, wrong_streak=1
 [2025-10-25 20:01:23] Game loop exiting. Cleaning up...
 [2025-10-25 20:01:23] Pygame quit done. Exiting process.
+[2025-10-26 23:30:32] Program start: initializing display window...
+[2025-10-26 23:30:32] Display window created successfully.
+[2025-10-26 23:30:32] __main__ entry reached. Starting Game()...
+[2025-10-26 23:30:32] Asset not found: cat_stage1_1.png
+[2025-10-26 23:30:32] Asset not found: cat_stage1_2.png
+[2025-10-26 23:30:32] Asset not found: cat_stage2_1.png
+[2025-10-26 23:30:32] Asset not found: cat_stage2_2.png
+[2025-10-26 23:30:33] Asset not found: cat_stage3_1.png
+[2025-10-26 23:30:33] Asset not found: cat_stage3_2.png
+[2025-10-26 23:30:33] Asset not found: obstacle.png
+[2025-10-26 23:30:33] Asset not found: obstacle_winter.png
+[2025-10-26 23:30:33] Asset not found: obstacle_snow.png
+[2025-10-26 23:30:33] Asset not found: obstacle_1.png
+[2025-10-26 23:30:33] Asset not found: obstacle_1_winter.png
+[2025-10-26 23:30:33] Asset not found: obstacle_1_snow.png
+[2025-10-26 23:30:33] Asset not found: obstacle_2.png
+[2025-10-26 23:30:33] Asset not found: obstacle_2_winter.png
+[2025-10-26 23:30:33] Asset not found: obstacle_2_snow.png
+[2025-10-26 23:30:33] Asset not found: obstacle_3.png
+[2025-10-26 23:30:33] Asset not found: obstacle_3_winter.png
+[2025-10-26 23:30:33] Asset not found: obstacle_3_snow.png
+[2025-10-26 23:30:33] Asset not found: obstacle_4.png
+[2025-10-26 23:30:33] Asset not found: obstacle_4_winter.png
+[2025-10-26 23:30:33] Asset not found: obstacle_4_snow.png
+[2025-10-26 23:30:33] Asset not found: obstacle_5.png
+[2025-10-26 23:30:33] Asset not found: obstacle_5_winter.png
+[2025-10-26 23:30:33] Asset not found: obstacle_5_snow.png
+[2025-10-26 23:30:33] Asset not found: obstacle_6.png
+[2025-10-26 23:30:33] Asset not found: obstacle_6_winter.png
+[2025-10-26 23:30:33] Asset not found: obstacle_6_snow.png
+[2025-10-26 23:30:33] Asset not found: obstacle_7.png
+[2025-10-26 23:30:33] Asset not found: obstacle_7_winter.png
+[2025-10-26 23:30:33] Asset not found: obstacle_7_snow.png
+[2025-10-26 23:30:33] Asset not found: obstacle_8.png
+[2025-10-26 23:30:33] Asset not found: obstacle_8_winter.png
+[2025-10-26 23:30:33] Asset not found: obstacle_8_snow.png
+[2025-10-26 23:30:33] Asset not found: obstacle_9.png
+[2025-10-26 23:30:33] Asset not found: obstacle_9_winter.png
+[2025-10-26 23:30:33] Asset not found: obstacle_9_snow.png
+[2025-10-26 23:30:33] Asset not found: obstacle_10.png
+[2025-10-26 23:30:33] Asset not found: obstacle_10_winter.png
+[2025-10-26 23:30:33] Asset not found: obstacle_10_snow.png
+[2025-10-26 23:30:33] Successfully loaded 3 scene configurations
+[2025-10-26 23:30:33] Loading scene: Grassland
+[2025-10-26 23:30:33] Game instance created. Running game loop...
+[2025-10-26 23:30:33] Game loop entering...
+[2025-10-26 23:30:35] Game loop exiting. Cleaning up...
+[2025-10-26 23:30:35] Pygame quit done. Exiting process.
